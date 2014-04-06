@@ -265,7 +265,7 @@ int main()
 
    cout<<man_string("\n",2);
 
-   //loadfromfile();
+   ///loadfromfile();
 
 
    leave();
@@ -273,3 +273,4 @@ int main()
    char c;
    cin>>c;
 }
+
