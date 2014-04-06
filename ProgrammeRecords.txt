@@ -1,0 +1,9 @@
+HKU	BEng - Computer Science	HKU-CS	7	3.6	30 Dec 2013
+HKU	BEng - Computer Engineering	HKU-CE	5	3.7	30 Dec 2013
+HKUST	BSc - Computer Science	HKUST-CS	10	3.55	31 Oct 2013
+HKUST	BEng - Computer Engineering	HKUST-CE	15	3.45	31 Oct 2013
+PolyU	BSc in Computing	PolyU-COMP	20	3.35	28 Feb 2014
+CityU	BEng in Information Engineering	CityU-IE	7	3.3	28 Feb 2014
+CUHK	BSc in Computer Science	CUHK-CS	8	3.5	2 Jan 2014
+CUHK	BEng in Computer Engineering	CUHK-CE	4	3.4	2 Jan 2014
+HKBU	BSc in Computer Science	HKBU-CS	5	3.2	3 Jan 2013
