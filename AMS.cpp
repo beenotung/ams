@@ -104,12 +104,12 @@ private:
 struct StuNameRec{
     string fullName,nickName;
 };
-class StudentRec
+class StudentRecClass
 {
 public:
 
-    bool setName(string  a, string &b);
-    bool setName(string &a, string &b);
+    bool setName(char mode, string data);
+    bool setName(string fullName, string nickName);
     bool setID(string);
     bool setPro(string);
     bool setGPA(float);
@@ -121,12 +121,18 @@ public:
     bool getPro(string);
     bool getGPA(float);
     bool getNum(int);
+
 private:
     StuNameRec name;
     string ID;
     vector<string> ProChoice;
     float GPA;
     int Num;
+};
+class StudentClass
+{
+private:
+    vector<StudentRecClass> StudentData;
 };
 
 
@@ -358,14 +364,16 @@ bool loadofile(ifstream &file, const char *filename)
 // defining menu functions
 void loadfileErrMenu(string filename)
 {
-    ///
+    //\\
 }
 
 
 
 
 // defining class
-
+///
+/// \ GroupMemberClass methods
+///
 GroupMemberClass::GroupMemberClass(void)
 {
     this->add("Tung Cheung Leong","13058536A");
@@ -387,21 +395,30 @@ void GroupMemberClass::show()
     }
 }
 
-class StuNameRec{
-public:
-    string fullName,nickName;
-};
-void GroupMemberClass::add(string name,string id)
+///
+/// \ StudentRecClass methods
+///
+//\\
+StudentRecClass::setName(char mode, string data)
 {
-
+    switch (mode){
+    case 'f':name.fullName=data;
+        break;
+    case 'n':name.nickName=data;
+        break;
+    }
+}
+StudentRecClass::setName(string fullName, string nickName)
+{
+    this->name.fullName=fullName;
+    this->name.nickName=nickName;
+}
+StudentRecClass::setID(string ID)
+{
+    ID=ID;
 }
 
-class StudentRec
-{
-public:
-
-    bool setName(string  a, string &b);
-    bool setName(string &a, string &b);
+/*
     bool setID(string);
     bool setPro(string);
     bool setGPA(float);
@@ -413,6 +430,7 @@ public:
     bool getPro(string);
     bool getGPA(float);
     bool getNum(int);
+
 private:
     StuNameRec name;
     string ID;
@@ -420,6 +438,8 @@ private:
     float GPA;
     int Num;
 };
+*/
+//\\
 
 
 // defining main functions
