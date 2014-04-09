@@ -115,8 +115,8 @@ public:
     bool setGPA(float);
     bool setNum(int);
 
-    bool getName(string  a, string &b);
-    bool getName(string &a, string &b);
+    bool getName(char mode, string data);
+    bool getName(string fullName, string nickName);
     bool getID(string);
     bool getPro(string);
     bool getGPA(float);
@@ -127,7 +127,7 @@ private:
     string ID;
     vector<string> ProChoice;
     float GPA;
-    int Num;
+    int Num;    // Number of subjects taken
 };
 class StudentClass
 {
@@ -374,7 +374,7 @@ void loadfileErrMenu(string filename)
 ///
 /// \ GroupMemberClass methods
 ///
-GroupMemberClass::GroupMemberClass(void)
+GroupMemberClass::GroupMemberClass()
 {
     this->add("Tung Cheung Leong","13058536A");
     this->add("Tai Leung Kin","12171480A");
@@ -398,32 +398,68 @@ void GroupMemberClass::show()
 ///
 /// \ StudentRecClass methods
 ///
-//\\
-StudentRecClass::setName(char mode, string data)
+bool StudentRecClass::setName(char mode, string data)
 {
     switch (mode){
-    case 'f':name.fullName=data;
+    case 'f':this->name.fullName=data;
         break;
-    case 'n':name.nickName=data;
+    case 'n':this->name.nickName=data;
         break;
     }
+    return true;
 }
-StudentRecClass::setName(string fullName, string nickName)
+bool StudentRecClass::setName(string fullName, string nickName)
 {
     this->name.fullName=fullName;
     this->name.nickName=nickName;
+    return true;
 }
-StudentRecClass::setID(string ID)
+bool StudentRecClass::setID(string ID)
 {
-    ID=ID;
+    this->ID=ID;
+    return true;
+}
+bool StudentRecClass::setGPA(float GPA)
+{
+    this->GPA=GPA;
+    return true;
+}
+bool StudentRecClass::setNum(int Num)
+{
+    this->Num=Num;
+    return true;
+}
+//\\
+bool StudentRecClass::getName(char mode, string data)
+{
+    switch (mode){
+    case 'f':this->data=name.fullName;
+        break;
+    case 'n':this->data=name.nickName;
+        break;
+    }
+    return true;
+}
+bool StudentRecClass::getName(string fullName, string nickName)
+{
+    fullName=this->name.fullName;
+    nickName=this->name.nickName;
+    return true;
+}
+StudentRecClass::getID(string ID)
+{
+    this->ID=ID;
+}
+StudentRecClass::getGPA(float GPA)
+{
+    this->GPA=GPA;
+}
+StudentRecClass::getNum(int Num)
+{
+    this->Num=Num;
 }
 
 /*
-    bool setID(string);
-    bool setPro(string);
-    bool setGPA(float);
-    bool setNum(int);
-
     bool getName(string  a, string &b);
     bool getName(string &a, string &b);
     bool getID(string);
