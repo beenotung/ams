@@ -222,6 +222,7 @@ void warming(string msg){
 GroupMemberClass::GroupMemberClass(void){
    this->add("Tung Cheung Leong","13058536A");
    this->add("Tai Leung Kin","12171480A");
+   this->add("Au Wai Ki","12657346A");
 }
 
 void GroupMemberClass::add(string name,string id){
