@@ -1,5 +1,5 @@
 /*
- * AMS v0.1
+ * AMS v0.1 testing
  */
 
 // including header
