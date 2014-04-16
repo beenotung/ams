@@ -1,7 +1,9 @@
 /*
  * AMS v0.1 testing
  */
-
+//menu start
+//menu content
+//menu end
 // including header
 
 #include <iostream>
