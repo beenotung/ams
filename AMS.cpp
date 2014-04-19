@@ -101,26 +101,27 @@ private:
  * &a : fullname-data
  * &b : nickname-data
 */
-struct StuNameRec{
+struct StuNameRec
+{
     string fullName,nickName;
 };
 class StudentRecClass
 {
 public:
 
-    bool setName(char mode, string data);
-    bool setName(string fullName, string nickName);
-    bool setID(string);
-    bool setPro(string);
-    bool setGPA(float);
-    bool setNum(int);
+    void setName(char mode, string data);
+    void setName(string fullName, string nickName);
+    void setID(string);
+    void setPro(string);
+    void setGPA(float);
+    void setNum(int);
 
-    bool getName(char mode, string data);
-    bool getName(string fullName, string nickName);
-    bool getID(string);
-    bool getPro(string);
-    bool getGPA(float);
-    bool getNum(int);
+    bool getName(char mode, string &data);
+    bool getName(string &fullName, string &nickName);    
+    bool getID(string &ID);
+    bool getPro(vector<string> &ProChoice);
+    bool getGPA(float &GPA);
+    bool getNum(int &Num);
 
 private:
     StuNameRec name;
@@ -364,16 +365,16 @@ bool loadofile(ifstream &file, const char *filename)
 // defining menu functions
 void loadfileErrMenu(string filename)
 {
-    //\\
+    warming(filename+"is not loaded");
 }
 
 
 
 
-// defining class
-///
-/// \ GroupMemberClass methods
-///
+/*
+ *defining class
+ *GroupMemberClass methods
+ */
 GroupMemberClass::GroupMemberClass()
 {
     this->add("Tung Cheung Leong","13058536A");
@@ -395,87 +396,83 @@ void GroupMemberClass::show()
     }
 }
 
-///
-/// \ StudentRecClass methods
-///
-bool StudentRecClass::setName(char mode, string data)
+/*
+ *StudentRecClass methods
+*/
+
+void StudentRecClass::setName(char mode, string data)
 {
-    switch (mode){
-    case 'f':this->name.fullName=data;
+    switch (mode)
+    {
+    case 'f':
+        this->name.fullName=data;
         break;
-    case 'n':this->name.nickName=data;
+    case 'n':
+        this->name.nickName=data;
         break;
     }
-    return true;
 }
-bool StudentRecClass::setName(string fullName, string nickName)
+void StudentRecClass::setName(string fullName, string nickName)
 {
     this->name.fullName=fullName;
     this->name.nickName=nickName;
-    return true;
 }
-bool StudentRecClass::setID(string ID)
+void StudentRecClass::setID(string ID)
 {
     this->ID=ID;
-    return true;
 }
-bool StudentRecClass::setGPA(float GPA)
+void StudentRecClass::setPro(string Pro)
 {
-    this->GPA=GPA;
-    return true;
+    this->ProChoice.push_back(Pro);
 }
-bool StudentRecClass::setNum(int Num)
+void StudentRecClass::setGPA(float GPA)
 {
-    this->Num=Num;
-    return true;
+    this->GPA=GPA;    
 }
-//\\
-bool StudentRecClass::getName(char mode, string data)
+void StudentRecClass::setNum(int Num)
 {
-    switch (mode){
-    case 'f':this->data=name.fullName;
+    this->Num=Num;    
+}
+
+bool StudentRecClass::getName(char mode, string &data)
+{
+    switch (mode)
+    {
+    case 'f':
+        data=name.fullName;
         break;
-    case 'n':this->data=name.nickName;
+    case 'n':
+        data=name.nickName;
         break;
     }
     return true;
 }
-bool StudentRecClass::getName(string fullName, string nickName)
+bool StudentRecClass::getName(string &fullName, string &nickName)
 {
     fullName=this->name.fullName;
     nickName=this->name.nickName;
     return true;
 }
-StudentRecClass::getID(string ID)
+bool StudentRecClass::getID(string &ID)
 {
-    this->ID=ID;
+    ID=this->ID;
+    return true;
 }
-StudentRecClass::getGPA(float GPA)
+bool StudentRecClass::getPro(vector<string> &ProChoice)
 {
-    this->GPA=GPA;
+    ProChoice=this->ProChoice;
+    return true;
 }
-StudentRecClass::getNum(int Num)
+bool StudentRecClass::getGPA(float &GPA)
 {
-    this->Num=Num;
+    GPA=this->GPA;
+    return true;
 }
-
-/*
-    bool getName(string  a, string &b);
-    bool getName(string &a, string &b);
-    bool getID(string);
-    bool getPro(string);
-    bool getGPA(float);
-    bool getNum(int);
-
-private:
-    StuNameRec name;
-    string ID;
-    vector<string> ProChoice;
-    float GPA;
-    int Num;
-};
-*/
-//\\
+bool StudentRecClass::getNum(int &Num)
+{
+    Num=this->Num;
+    return true;
+}
 
 
 // defining main functions
