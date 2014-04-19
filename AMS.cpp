@@ -267,7 +267,8 @@ void update_GPA(){		//R9-R10 update new number of subject taken, also recalculat
 	}
 }
 
-void show_possible_program(){
+void show_possible_program()
+{
 	student.getGPA();
 	
 
