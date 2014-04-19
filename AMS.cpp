@@ -128,7 +128,7 @@ struct GroupMemberRec
 class GroupMemberClass
 {
 public:
-    GroupMemberClass();
+    GroupMemberClass(void);
     void add(string name,string id);		//add member
     void show();							//show member
 private:
@@ -407,7 +407,7 @@ bool loadofile(ifstream &file, const char *filename)
 // defining menu functions
 void loadfileErrMenu(string filename)
 {
-    //\\
+    ///
 }
 
 
@@ -417,7 +417,7 @@ void loadfileErrMenu(string filename)
 ///
 /// \ GroupMemberClass methods
 ///
-GroupMemberClass::GroupMemberClass()
+GroupMemberClass::GroupMemberClass(void)
 {
     this->add("Tung Cheung Leong","13058536A");
     this->add("Tai Leung Kin","12171480A");
@@ -472,7 +472,7 @@ bool StudentRecClass::setNum(int Num)
     this->Num=Num;
     return true;
 }
-//\\
+
 bool StudentRecClass::getName(char mode, string data)
 {
     switch (mode){
@@ -570,3 +570,23 @@ int main()
 
     return leave("nornal leave");
 }
+
+
+
+
+
+
+
+
+vector<string> list;
+list.push_back(" Student Action Menu ");
+list.push_back("Update GPA and No.of subkjects");
+list.push_back("Enter ...");
+
+vector<string> function_list;
+function_list.push_back("Update GPA");
+function_list.push_back("Enter grade");
+
+
+
+menu(list);
