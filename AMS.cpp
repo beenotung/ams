@@ -76,7 +76,7 @@ public:
    GroupMemberClass();
    void add(string name,string id);
    void show();
-private:
+private: 
    vector<GroupMemberRec> GroupMemberList;
 };
 
