@@ -1,6 +1,5 @@
 /*
  * AMS v0.1
- asdasd
  */
  
 // including header

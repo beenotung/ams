@@ -181,9 +181,9 @@ private:
 
 // declearing main functions
 
-void welcome();		//R1
+void welcome();//R1
 
-void loadrecfile();	//R2
+void loadrecfile();//R2
 
 
 // declearing variable
