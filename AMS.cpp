@@ -252,7 +252,12 @@ void welcome(){
    cout<<center(center("-",40,'-'));
 }
 
+void search_student(){
+	char name[50]
 
+	cout << "Enter the student name :";
+
+}
 
 
 //================================================================//
