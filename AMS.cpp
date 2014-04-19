@@ -252,12 +252,21 @@ void welcome(){
    cout<<center(center("-",40,'-'));
 }
 
-void search_student(){
-	char name[50]
+void update_GPA(){		//update new number of subject taken, also recalculate avg GPA
+	int subjects_taken;
+	cout << "Enter the new number of subjects taken :";
+	cin >> subjects_taken;
+	float d_GPA;	
 
-	cout << "Enter the student name :";
-
+	for (int i = 1; i<= subjects_taken;i++)
+	{
+		cout << "Enter the grade point of subject"<<i<<": ";
+		cin >> d_GPA;		
+		Student.setGPA((Student.getGPA()*(i-1)+d_GPA)/i);
+		Student.setNum(i);
+	}
 }
+
 
 
 //================================================================//
