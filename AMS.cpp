@@ -252,7 +252,7 @@ void welcome(){
    cout<<center(center("-",40,'-'));
 }
 
-void update_GPA(){		//update new number of subject taken, also recalculate avg GPA
+void update_GPA(){		//R9-R10 update new number of subject taken, also recalculate avg GPA
 	int subjects_taken;
 	cout << "Enter the new number of subjects taken :";
 	cin >> subjects_taken;
@@ -265,6 +265,12 @@ void update_GPA(){		//update new number of subject taken, also recalculate avg G
 		Student.setGPA((Student.getGPA()*(i-1)+d_GPA)/i);
 		Student.setNum(i);
 	}
+}
+
+void show_possible_program(){
+	student.getGPA();
+	
+
 }
 
 
