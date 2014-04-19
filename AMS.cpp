@@ -48,34 +48,76 @@ void gotoxy(int xpos, int ypos);
 #endif
 
 string man_string(string ori,int n);
+/*copy the item with number n and return the new string
+eg:string str=man_string("abc",3);
+str == "abcabcabc"
+*/
 
 string space(int n,char c);
+/*produce char c with number of n
+and return new string
+*/
 string space(int n);
+/*produce [space] with number of n
+and return new string
+*/
 
 string lsr(string l, char c, string r, int n);
+/*produce a new string with leftmost part as l
+rightmost part as r
+and use (n-(lenght of l)-(length of r))of char c to fill the middle path
+*/
 string lsr(string l,string r,int n);
+/*produce a new string with leftmost part as l
+rightmost part as r
+and use (n-(lenght of l)-(length of r))of [space] to fill the middle path
+*/
 string lsr(string l,string r);
+/*produce a new string with leftmost part as l
+rightmost part as r
+and use (80-(lenght of l)-(length of r))of [space] to fill the middle path
+*/
 
 string center(string target,int count,char filling);
+/*make a new string of count char
+and put the targert in the center of the new string
+and fill the unassigned leftmost part and rightmost part with char filling
+and return the new string
+*/
 string center(string target,int count);
+/*make a new string of count char
+and put the targert in the center of the new string
+and fill the unassigned leftmost part and rightmost part with char [space]
+and return the new string
+*/
 string center(string target,char filling);
+/*make a new string of 80 char
+and put the targert in the center of the new string
+and fill the unassigned leftmost part and rightmost part with char filling
+and return the new string
+*/
 string center(string target);
+/*make a new string of 80 char
+and put the targert in the center of the new string
+and fill the unassigned leftmost part and rightmost part with char [space]
+and return the new string
+*/
 
-void delay(int time);
+void delay(int time);				//wait for time mini-second
 
-void warming(string);
-int leave(string msg);
+void warming(string);				//output expected error
 
-bool fexists(const char *filename);
+int leave(string msg);				//leave the problem with message msg
 
-bool loadifile(ifstream &file, const char *filename, int count);
-bool loadifile(ifstream &file, const char *filename);
-bool loadofile(ifstream &file, const char *filename, int count);
-bool loadofile(ifstream &file, const char *filename);
+bool fexists(const char *filename);	//check where the file exist or not
 
+bool loadifile(ifstream &file, const char *filename, int count);	//load the  input file with count times
+bool loadifile(ifstream &file, const char *filename);				//loadthe input file with 10 times
+bool loadofile(ifstream &file, const char *filename, int count);	//load the output file with count times
+bool loadofile(ifstream &file, const char *filename);				//loadthe output file with 10 times
 
 // declearing menu functions
-void loadfileErrMenu(string filename);
+void loadfileErrMenu(string filename);//out error msg in menue interface
 
 // declearing class
 
@@ -87,61 +129,61 @@ class GroupMemberClass
 {
 public:
     GroupMemberClass();
-    void add(string name,string id);
-    void show();
+    void add(string name,string id);		//add member
+    void show();							//show member
 private:
-    vector<GroupMemberRec> GroupMemberList;
+    vector<GroupMemberRec> GroupMemberList;	//vector,store groupmember id and name
 };
 
-/* set/get single name or both supported
- * single :
- *  a : index
- * &b : name-data
- * both :
- * &a : fullname-data
- * &b : nickname-data
-*/
-struct StuNameRec
-{
+
+struct StuNameRec{
     string fullName,nickName;
 };
 class StudentRecClass
 {
 public:
 
-    void setName(char mode, string data);
-    void setName(string fullName, string nickName);
-    void setID(string);
-    void setPro(string);
-    void setGPA(float);
-    void setNum(int);
+    bool setName(char mode, string data);
+    bool setName(string fullName, string nickName);
+    /* set/get single name or both supported
+    * single :
+    *  a : index
+    * &b : name-data
+    * both :
+    * &a : fullname-data
+    * &b : nickname-data
+    */
+    bool setID(string);
+    bool setPro(string);
+    bool setGPA(float);
+    bool setNum(int);
 
-    bool getName(char mode, string &data);
-    bool getName(string &fullName, string &nickName);    
-    bool getID(string &ID);
-    bool getPro(vector<string> &ProChoice);
-    bool getGPA(float &GPA);
-    bool getNum(int &Num);
+    bool getName(char mode, string data);
+    bool getName(string fullName, string nickName);//similar to setName
+    bool getID(string);
+    bool getPro(string);
+    bool getGPA(float);
+    bool getNum(int);
 
 private:
     StuNameRec name;
     string ID;
     vector<string> ProChoice;
     float GPA;
-    int Num;    // Number of subjects taken
+    int Num;										// Number of subjects taken
 };
 class StudentClass
 {
 private:
-    vector<StudentRecClass> StudentData;
+    vector<StudentRecClass> StudentData;			//vector,store st record
 };
 
 
 // declearing main functions
 
-void welcome();
+void welcome();		//R1
 
-void loadrecfile();
+void loadrecfile();	//R2
 
 
 // declearing variable
@@ -365,16 +407,16 @@ bool loadofile(ifstream &file, const char *filename)
 // defining menu functions
 void loadfileErrMenu(string filename)
 {
-    warming(filename+"is not loaded");
+    //\\
 }
 
 
 
 
-/*
- *defining class
- *GroupMemberClass methods
- */
+// defining class
+///
+/// \ GroupMemberClass methods
+///
 GroupMemberClass::GroupMemberClass()
 {
     this->add("Tung Cheung Leong","13058536A");
@@ -396,82 +438,68 @@ void GroupMemberClass::show()
     }
 }
 
-/*
- *StudentRecClass methods
-*/
-
-void StudentRecClass::setName(char mode, string data)
+///
+/// \ StudentRecClass methods
+///
+bool StudentRecClass::setName(char mode, string data)
 {
-    switch (mode)
-    {
-    case 'f':
-        this->name.fullName=data;
+    switch (mode){
+    case 'f':this->name.fullName=data;
         break;
-    case 'n':
-        this->name.nickName=data;
-        break;
-    }
-}
-void StudentRecClass::setName(string fullName, string nickName)
-{
-    this->name.fullName=fullName;
-    this->name.nickName=nickName;
-}
-void StudentRecClass::setID(string ID)
-{
-    this->ID=ID;
-}
-void StudentRecClass::setPro(string Pro)
-{
-    this->ProChoice.push_back(Pro);
-}
-void StudentRecClass::setGPA(float GPA)
-{
-    this->GPA=GPA;    
-}
-void StudentRecClass::setNum(int Num)
-{
-    this->Num=Num;    
-}
-
-bool StudentRecClass::getName(char mode, string &data)
-{
-    switch (mode)
-    {
-    case 'f':
-        data=name.fullName;
-        break;
-    case 'n':
-        data=name.nickName;
+    case 'n':this->name.nickName=data;
         break;
     }
     return true;
 }
-bool StudentRecClass::getName(string &fullName, string &nickName)
+bool StudentRecClass::setName(string fullName, string nickName)
+{
+    this->name.fullName=fullName;
+    this->name.nickName=nickName;
+    return true;
+}
+bool StudentRecClass::setID(string ID)
+{
+    this->ID=ID;
+    return true;
+}
+bool StudentRecClass::setGPA(float GPA)
+{
+    this->GPA=GPA;
+    return true;
+}
+bool StudentRecClass::setNum(int Num)
+{
+    this->Num=Num;
+    return true;
+}
+//\\
+bool StudentRecClass::getName(char mode, string data)
+{
+    switch (mode){
+    case 'f':this->data=name.fullName;
+        break;
+    case 'n':this->data=name.nickName;
+        break;
+    }
+    return true;
+}
+bool StudentRecClass::getName(string fullName, string nickName)
 {
     fullName=this->name.fullName;
     nickName=this->name.nickName;
     return true;
 }
-bool StudentRecClass::getID(string &ID)
+StudentRecClass::getID(string ID)
 {
-    ID=this->ID;
-    return true;
+    this->ID=ID;
 }
-bool StudentRecClass::getPro(vector<string> &ProChoice)
+StudentRecClass::getGPA(float GPA)
 {
-    ProChoice=this->ProChoice;
-    return true;
+    this->GPA=GPA;
 }
-bool StudentRecClass::getGPA(float &GPA)
+StudentRecClass::getNum(int Num)
 {
-    GPA=this->GPA;
-    return true;
-}
-bool StudentRecClass::getNum(int &Num)
-{
-    Num=this->Num;
-    return true;
+    this->Num=Num;
 }
 
 
@@ -542,5 +570,3 @@ int main()
 
     return leave("nornal leave");
 }
-
-
