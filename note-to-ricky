@@ -1,0 +1,17 @@
+vector<string> msg;
+msg.push_back("... title");
+msg.push_back("...option 1");
+msg.push_back("...option 2");
+msg.push_back("...option 3");
+msg.push_back("...option 4");
+msg.push_back("...option 5");
+
+vector<string> func_list;
+msg.push_back("function1");
+msg.push_back("function2");
+msg.push_back("function3");
+msg.push_back("function4");
+msg.push_back("function5");
+
+menu(msg,func_list);
+
