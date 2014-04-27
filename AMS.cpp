@@ -574,25 +574,55 @@ void loadrecfile()
     {
         exit(2);
     }
-    string ID,Name,Pro;
+    string ID,Pro;
+    StuNameRec Name;
     float GPA;
     int Num;
     string oldline="";
     string newline="1";
-    do {
+    do
+    {
         oldline=newline;
         getline(sturecfile,newline);
+        // read ID
         int i1=0;
-        int i2=0;
-        while (newline[i1]!='\t') {i1++;}
-        ID="";
-        char tmp[9];
-        for (int i=0;i<i1;i++) {
-            tmp[i]=newline[i];
+        while (newline[i1]!='\t')
+        {
+            i1++;
         }
-        tmp[i1]='\0';
-        ID=tmp;
-        cout<<endl<<'*'<<ID<<'*';
+        {
+            ID="";
+            char tmp[9];
+            for (int i=0; i<i1; i++)
+            {
+                tmp[i]=newline[i];
+            }
+            tmp[i1]='\0';
+            ID=tmp;
+        }
+        // read name
+        int i2=i1+1;
+        while (newline[i2]!='\t')
+        {
+            i2++;
+        }
+        {
+            Name.fullName="";
+            Name.nickName="";
+            vector<char>tmp;
+            tmp.clear();
+            for (int i=i1+1; i<i2; i++)
+            {
+            tmp.push_back(newline[i]);
+            }
+            for (int i=0;i<tmp.size();i++)
+            {
+            cout<<tmp[i];
+            }
+            Name.fullName="testing";
+        }
+        cout<<endl;
+        //cout<<endl<<'*'<<ID<<'*';
     }
     while (newline!=oldline);
 }
