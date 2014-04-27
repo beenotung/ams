@@ -41,7 +41,7 @@ void write_student()		// Create Student Record, NOT USED
 	ofstream outFile;
 	outFile.open("student.dat",ios::binary|ios::app);
 	st.getdata();
-	outFile.write(reinterpret_cast<char *> (&st), sizeof(student));
+	outFile.write(reinterpret_cast<char *> (&st), sizeof(student));			//應該係呢句
 	outFile.close();
     cout<<"\n\nStudent record Has Been Created ";
 	cin.ignore();
