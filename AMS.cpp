@@ -433,6 +433,9 @@ void loadfileErrMenu(string filename)
 GroupMemberClass::GroupMemberClass(void)
 {
     this->add("Tung Cheung Leong","13058536A");
+    this->add("Au Wai Ki","12657346A");
+    this->add("Ko Tsz Wai","13080101A");
+    this->add("Kung Ho Yin","13498425A");
     this->add("Tai Leung Kin","12171480A");
 }
 void GroupMemberClass::add(string name,string id)
