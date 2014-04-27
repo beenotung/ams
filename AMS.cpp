@@ -117,6 +117,7 @@ bool loadofile(ifstream &file, const char *filename, int count);	//load the outp
 bool loadofile(ifstream &file, const char *filename);				//loadthe output file with 10 times
 
 // declearing menu functions
+void showmenu(vector<string> msg_list,vector<string> func_list);
 void loadfileErrMenu(string filename);//out error msg in menue interface
 
 // declearing class
@@ -136,7 +137,8 @@ private:
 };
 
 
-struct StuNameRec{
+struct StuNameRec
+{
     string fullName,nickName;
 };
 class StudentRecClass
@@ -408,6 +410,14 @@ bool loadofile(ifstream &file, const char *filename)
 
 
 // defining menu functions
+void menu(vector<string> msg_list,vector<string> func_list)
+{
+    cout<<center(msg_list[0],40,'*');
+    for (int i=1; i<msg_list.size(); i++)
+    {
+        cout<<endl<<"("<<i<<") "<<msg_list[i];
+    }
+}
 void loadfileErrMenu(string filename)
 {
     ///
@@ -446,10 +456,13 @@ void GroupMemberClass::show()
 ///
 bool StudentRecClass::setName(char mode, string data)
 {
-    switch (mode){
-    case 'f':this->name.fullName=data;
+    switch (mode)
+    {
+    case 'f':
+        this->name.fullName=data;
         break;
-    case 'n':this->name.nickName=data;
+    case 'n':
+        this->name.nickName=data;
         break;
     }
     return true;
@@ -478,10 +491,13 @@ bool StudentRecClass::setNum(int Num)
 
 bool StudentRecClass::getName(char mode, string data)
 {
-    switch (mode){
-    case 'f':this->data=name.fullName;
+    switch (mode)
+    {
+    case 'f':
+        this->data=name.fullName;
         break;
-    case 'n':this->data=name.nickName;
+    case 'n':
+        this->data=name.nickName;
         break;
     }
     return true;
@@ -600,3 +616,5 @@ function_list.push_back("Enter grade");
 
 
 menu(list);
+
+void meu
