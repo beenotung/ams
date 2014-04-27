@@ -39,7 +39,7 @@ void write_student()		// Create Student Record, NOT USED
 {
 	student st;
 	ofstream outFile;
-	outFile.open("student_test.dat",ios::binary|ios::app);
+	outFile.open("student.dat",ios::binary|ios::app);
 	st.getdata();
 	outFile.write(reinterpret_cast<char *> (&st), sizeof(student));
 	outFile.close();
