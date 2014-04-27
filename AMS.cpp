@@ -582,18 +582,16 @@ void loadrecfile()
     do {
         oldline=newline;
         getline(sturecfile,newline);
-        int i;
         int i1=0;
         int i2=0;
         while (newline[i1]!='\t') {i1++;}
         ID="";
         char tmp[9];
-        for (int j=0;j<i;j++){
-            tmp[j]=newline[j];
+        for (int i=0;i<i1;i++) {
+            tmp[i]=newline[i];
         }
-        tmp[i]='\0';
+        tmp[i1]='\0';
         ID=tmp;
-        while (newline[i]!='\t') {i++;}
         cout<<endl<<'*'<<ID<<'*';
     }
     while (newline!=oldline);
