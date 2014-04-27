@@ -3,7 +3,7 @@
  */
 
 // magic numbers
-#define STURECFILENAME "StudentRecords..txt"
+#define STURECFILENAME "StudentRecords.txt"
 #define PRORECFILENAME "ProgrammeRecords.txt"
 
 // including header
@@ -494,10 +494,10 @@ bool StudentRecClass::getName(char mode, string data)
     switch (mode)
     {
     case 'f':
-        this->data=name.fullName;
+        data=this->name.fullName;
         break;
     case 'n':
-        this->data=name.nickName;
+        data=this->name.nickName;
         break;
     }
     return true;
@@ -508,17 +508,20 @@ bool StudentRecClass::getName(string fullName, string nickName)
     nickName=this->name.nickName;
     return true;
 }
-StudentRecClass::getID(string ID)
+bool StudentRecClass::getID(string ID)
 {
     this->ID=ID;
+    return true;
 }
-StudentRecClass::getGPA(float GPA)
+bool StudentRecClass::getGPA(float GPA)
 {
     this->GPA=GPA;
+    return true;
 }
-StudentRecClass::getNum(int Num)
+bool StudentRecClass::getNum(int Num)
 {
     this->Num=Num;
+    return true;
 }
 
 /*---- Student Class methods ----*/
@@ -573,7 +576,7 @@ void loadrecfile()
     int Num;
     while (sturecfile>>ID>>Name>>GPA>>Num>>Pro)
     {
-        add
+        ///add
     }
 }
 
@@ -602,19 +605,3 @@ int main()
 
 
 
-
-
-vector<string> list;
-list.push_back(" Student Action Menu ");
-list.push_back("Update GPA and No.of subkjects");
-list.push_back("Enter ...");
-
-vector<string> function_list;
-function_list.push_back("Update GPA");
-function_list.push_back("Enter grade");
-
-
-
-menu(list);
-
-void meu
