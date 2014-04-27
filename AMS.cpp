@@ -174,8 +174,11 @@ private:
 };
 class StudentClass
 {
+public:
+    StudentClass(void);
 private:
     vector<StudentRecClass> StudentData;			//vector,store st record
+    int index;
 };
 
 
@@ -500,6 +503,13 @@ StudentRecClass::getGPA(float GPA)
 StudentRecClass::getNum(int Num)
 {
     this->Num=Num;
+}
+
+/*---- Student Class methods ----*/
+StudentClass::StudentClass(void)
+{
+    this->index-1;
+    this->StudentData.clear();
 }
 
 
