@@ -609,16 +609,29 @@ void loadrecfile()
         {
             Name.fullName="";
             Name.nickName="";
-            vector<char>tmp;
-            tmp.clear();
+            char nname[100];
             for (int i=i1+1; i<i2; i++)
             {
-            tmp.push_back(newline[i]);
+            cout<<newline[i];
+                nname[i-i1-1]=newline[i];
             }
-            for (int i=0;i<tmp.size();i++)
+            nname[i2]='\0';
+            bool mixed=false;
+            int space=0;
+            for (int i=i1+1; i<i2; i++)
             {
-            cout<<tmp[i];
+                switch (nname[i-i1-1])
+                {
+                case ',':
+                    mixed=true;
+                    break;
+                case ' ':
+                    space++;
+                    break;
+                }
+                //cout<<nname[i-i1-1];
             }
+            //cout<<mixed<<' '<<space<<' '<<nname;
             Name.fullName="testing";
         }
         cout<<endl;
