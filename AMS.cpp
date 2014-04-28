@@ -602,6 +602,7 @@ void loadrecfile()
         }
         // read name
         int i2=i1+1;
+        int i2_2=0;
         while (newline[i2]!='\t')
         {
             i2++;
@@ -609,10 +610,9 @@ void loadrecfile()
         {
             Name.fullName="";
             Name.nickName="";
-            char nname[100];
+            char nname[50];
             for (int i=i1+1; i<i2; i++)
             {
-            cout<<newline[i];
                 nname[i-i1-1]=newline[i];
             }
             nname[i2]='\0';
@@ -624,13 +624,30 @@ void loadrecfile()
                 {
                 case ',':
                     mixed=true;
+                    i2_2=i;
                     break;
                 case ' ':
                     space++;
                     break;
                 }
-                //cout<<nname[i-i1-1];
+                cout<<nname[i-i1-1];
             }
+            if (mixed)
+            {
+                char fullname[50];
+                char nickname[25];
+                for (int i=i1+1; i<i2_2; i++)
+                {
+                    fullname[i-i1-1]=nname[i-i1-1];
+                }
+                for (int i=i2_2+1; i<i2; i++)
+                {
+                    nickname[i-i2-1]=nname[i-i1-1];
+                }
+            }
+            else {
+            }
+            //cout<<nname;
             //cout<<mixed<<' '<<space<<' '<<nname;
             Name.fullName="testing";
         }
