@@ -1,5 +1,5 @@
 /*
- * AMS v0.1
+ * AMS v0.2
  */
 
 // magic numbers
@@ -145,8 +145,8 @@ class StudentRecClass
 {
 public:
 
-    bool setName(char mode, string data);
-    bool setName(string fullName, string nickName);
+    bool setName(char mode, string data);               //dispose
+    bool setName(string fullName, string nickName);     //dispose
     /* set/get single name or both supported
     * single :
     *  a : index
@@ -156,21 +156,27 @@ public:
     * &b : nickname-data
     */
     bool setID(string);
+    bool setName(string);
     bool setPro(string);
     bool setGPA(float);
     bool setNum(int);
 
-    bool getName(char mode, string data);
-    bool getName(string fullName, string nickName);//similar to setName
+    bool getName(char mode, string data);                                   //dispose
+    bool getName(string fullName, string nickName);//similar to setName     //dispose
     bool getID(string);
+    bool getName(string);
     bool getPro(string);
     bool getGPA(float);
     bool getNum(int);
 
+    void show();                            		//show student data in this record (one student only)
+
 private:
-    StuNameRec name;
+    StuNameRec name;                                //dispose
+    string Name;
     string ID;
     vector<string> ProChoice;
+    vector<string> Offer;
     float GPA;
     int Num;										// Number of subjects taken
 };
@@ -427,9 +433,7 @@ void loadfileErrMenu(string filename)
 
 
 // defining class
-///
-/// \ GroupMemberClass methods
-///
+/*---- GroupMemberClass methods ----*/
 GroupMemberClass::GroupMemberClass(void)
 {
     this->add("Tung Cheung Leong","13058536A");
@@ -454,9 +458,7 @@ void GroupMemberClass::show()
     }
 }
 
-///
-/// \ StudentRecClass methods
-///
+/*----- StudentRecClass methods -----*/
 bool StudentRecClass::setName(char mode, string data)
 {
     switch (mode)
@@ -479,6 +481,11 @@ bool StudentRecClass::setName(string fullName, string nickName)
 bool StudentRecClass::setID(string ID)
 {
     this->ID=ID;
+    return true;
+}
+bool StudentRecClass::setName(string Name)
+{
+    this->Name=Name;
     return true;
 }
 bool StudentRecClass::setGPA(float GPA)
@@ -513,18 +520,31 @@ bool StudentRecClass::getName(string fullName, string nickName)
 }
 bool StudentRecClass::getID(string ID)
 {
-    this->ID=ID;
+    ID=this->ID;
+    return true;
+}
+bool StudentRecClass::getName(string Name)
+{
+    Name=this->Name;
     return true;
 }
 bool StudentRecClass::getGPA(float GPA)
 {
-    this->GPA=GPA;
+    GPA=this->GPA;
     return true;
 }
 bool StudentRecClass::getNum(int Num)
 {
-    this->Num=Num;
+    Num=this->Num;
     return true;
+}
+void StudentRecClass::show()
+{
+    cout<<endl<<"Student Name: "<<this->Name;
+    cout<<endl<<"Student ID: "<<this->ID;
+    printf("\nCumulative GPA: %f1.2",this->GPA);
+    cout<<endl<<"No. of subj. taken: "<<this->Num;
+    cout<<endl<<"No. of offers: "<<this->Offer.size();
 }
 
 /*---- Student Class methods ----*/
@@ -575,7 +595,8 @@ void loadrecfile()
         exit(2);
     }
     string ID,Pro;
-    StuNameRec Name;
+    //StuNameRec Name;
+    string Name;
     float GPA;
     int Num;
     string oldline="";
@@ -608,8 +629,7 @@ void loadrecfile()
             i2++;
         }
         {
-            Name.fullName="";
-            Name.nickName="";
+            Name="";
             char nname[50];
             for (int i=i1+1; i<i2; i++)
             {
