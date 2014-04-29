@@ -157,18 +157,20 @@ public:
     * &b : nickname-data
     */
     bool setID(string);
-    bool setName(string);
-    bool setPro(string);
+    bool setName(string);    
     bool setGPA(float);
     bool setNum(int);
+    bool setPro(string);
+    bool setOffer(string);
 
     bool getName(char mode, string &data);                                   //dispose
     bool getName(string &fullName, string &nickName);//similar to setName     //dispose
     bool getID(string &);
     bool getName(string &);
-    bool getPro(string);
     bool getGPA(float &);
     bool getNum(int &);
+    bool getPro(int index, string & data);
+    bool getOffer(int index, string & data);
 
     void show();                            		//show student data in this record (one student only)
 
@@ -187,6 +189,7 @@ public:
     StudentClass(void);
     vector<StudentRecClass> StudentData;			//vector,store st record
     int index;
+    void add(StudentRecClass newRec);
 private:
     int dummyint;
 };
@@ -505,6 +508,14 @@ bool StudentRecClass::setNum(int Num)
     this->Num=Num;
     return true;
 }
+bool StudentRecClass::setPro(string newdata)
+{
+    this->ProChoice.push_back(newdata);
+}
+bool StudentRecClass::setOffer(string newdata)
+{
+    this->Offer.push_back(newdata);
+}
 
 bool StudentRecClass::getName(char mode, string &data)
 {
@@ -545,6 +556,16 @@ bool StudentRecClass::getNum(int &Num)
     Num=this->Num;
     return true;
 }
+bool StudentRecClass::getPro(int index, string & data)
+{
+    data=this->ProChoice[index];
+    return true;
+}
+bool StudentRecClass::getOffer(int index, string & data)
+{
+    data=this->Offer[index];
+    return true;
+}
 void StudentRecClass::show()
 {
     cout<<endl<<"Student Name: "<<this->Name;
@@ -567,6 +588,10 @@ StudentClass::StudentClass(void)
 {
     this->index-1;
     this->StudentData.clear();
+}
+void StudentClass::add(StudentRecClass newRec)
+{
+    this->StudentData.push_back(newRec);
 }
 
 
@@ -701,6 +726,12 @@ void loadrecfile()
         }
         StudentRecClass newRec;
         newRec.setName(Name);
+        newRec.setID(ID);
+        newRec.setGPA(GPA);
+        newRec.setNum(Num);
+        for (int i=0;i<ProChoice.size();i++)
+            newRec.setPro(ProChoice[i]);
+        Student.add(newRec);
         cout<<endl;
         cout<<endl<<'*'<<ID<<'*';
         cout<<endl<<'*'<<Name<<'*';
