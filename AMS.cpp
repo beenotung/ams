@@ -126,6 +126,7 @@ struct GroupMemberRec
 {
     string name,id;
 };
+
 class GroupMemberClass
 {
 public:
@@ -258,6 +259,10 @@ void gorow(int n)
 void gotoxy(int x, int y)
 {
     cout << "\x1b["+to_string(y)+';'+to_string(x)+"H";
+}
+void system(string str)
+{
+    for (int i=0; i<25; i++) cout<<endl;
 }
 #elif _WIN32
 #include <windows.h>
@@ -599,6 +604,7 @@ void loadrecfile()
     string Name;
     float GPA;
     int Num;
+    vector<string>ProChoice;
     string oldline="";
     string newline="1";
     do
@@ -623,56 +629,74 @@ void loadrecfile()
         }
         // read name
         int i2=i1+1;
-        int i2_2=0;
         while (newline[i2]!='\t')
         {
             i2++;
         }
+        Name="";
+        for (int i=i1+1; i<i2; i++)
         {
-            Name="";
-            char nname[50];
-            for (int i=i1+1; i<i2; i++)
+            Name+=newline[i];
+        }
+        // read GPA
+        int i3=i2+1;
+        while (newline[i3]!='\t')
+        {
+            i3++;
+        }
+        GPA=0;
+        {
+            string tmp;
+            stringstream ss;
+            for (int i=i2+1; i<i3; i++)
             {
-                nname[i-i1-1]=newline[i];
+                tmp+=newline[i];
             }
-            nname[i2]='\0';
-            bool mixed=false;
-            int space=0;
-            for (int i=i1+1; i<i2; i++)
+            ss<<tmp;
+            ss>>GPA;
+        }
+        // read number of subject taken (Num)
+        int i4=i3+1;
+        while (newline[i4]!='\t')
+        {
+            i4++;
+        }
+        Num=0;
+        {
+            string tmp;
+            stringstream ss;
+            for (int i=i3+1; i<i4; i++)
             {
-                switch (nname[i-i1-1])
-                {
-                case ',':
-                    mixed=true;
-                    i2_2=i;
-                    break;
-                case ' ':
-                    space++;
-                    break;
-                }
-                cout<<nname[i-i1-1];
+                tmp+=newline[i];
             }
-            if (mixed)
+            ss<<tmp;
+            ss>>Num;
+        }
+        // read Programme choices main
+        int i5=newline.length();
+        ProChoice.clear();
+        {
+            string tmp;                     //remainding part of input (Program choice(s))
+            stringstream ss;
+            for (int i=i4+1; i<i5; i++)
             {
-                char fullname[50];
-                char nickname[25];
-                for (int i=i1+1; i<i2_2; i++)
-                {
-                    fullname[i-i1-1]=nname[i-i1-1];
-                }
-                for (int i=i2_2+1; i<i2; i++)
-                {
-                    nickname[i-i2-1]=nname[i-i1-1];
-                }
+                tmp+=newline[i];
             }
-            else {
+            ss<<tmp;
+            string element;
+            while (ss>>element)
+            {
+                ProChoice.push_back(element);
+                //cout<<ProChoice.back()<<'\t';
             }
-            //cout<<nname;
-            //cout<<mixed<<' '<<space<<' '<<nname;
-            Name.fullName="testing";
         }
         cout<<endl;
         //cout<<endl<<'*'<<ID<<'*';
+        //cout<<endl<<'*'<<Name<<'*';
+        //cout<<endl<<'*'<<GPA<<'*';
+        //cout<<endl<<'*'<<Num<<'*';
+
+
     }
     while (newline!=oldline);
 }
