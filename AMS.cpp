@@ -162,13 +162,13 @@ public:
     bool setGPA(float);
     bool setNum(int);
 
-    bool getName(char mode, string data);                                   //dispose
-    bool getName(string fullName, string nickName);//similar to setName     //dispose
-    bool getID(string);
-    bool getName(string);
+    bool getName(char mode, string &data);                                   //dispose
+    bool getName(string &fullName, string &nickName);//similar to setName     //dispose
+    bool getID(string &);
+    bool getName(string &);
     bool getPro(string);
-    bool getGPA(float);
-    bool getNum(int);
+    bool getGPA(float &);
+    bool getNum(int &);
 
     void show();                            		//show student data in this record (one student only)
 
@@ -185,9 +185,10 @@ class StudentClass
 {
 public:
     StudentClass(void);
-private:
     vector<StudentRecClass> StudentData;			//vector,store st record
     int index;
+private:
+    int dummyint;
 };
 
 
@@ -201,6 +202,7 @@ void loadrecfile();	//R2
 // declearing variable
 
 GroupMemberClass GroupMember;
+StudentClass Student;
 
 
 //================================================================//
@@ -504,7 +506,7 @@ bool StudentRecClass::setNum(int Num)
     return true;
 }
 
-bool StudentRecClass::getName(char mode, string data)
+bool StudentRecClass::getName(char mode, string &data)
 {
     switch (mode)
     {
@@ -517,28 +519,28 @@ bool StudentRecClass::getName(char mode, string data)
     }
     return true;
 }
-bool StudentRecClass::getName(string fullName, string nickName)
+bool StudentRecClass::getName(string &fullName, string &nickName)
 {
     fullName=this->name.fullName;
     nickName=this->name.nickName;
     return true;
 }
-bool StudentRecClass::getID(string ID)
+bool StudentRecClass::getID(string &ID)
 {
     ID=this->ID;
     return true;
 }
-bool StudentRecClass::getName(string Name)
+bool StudentRecClass::getName(string &Name)
 {
     Name=this->Name;
     return true;
 }
-bool StudentRecClass::getGPA(float GPA)
+bool StudentRecClass::getGPA(float &GPA)
 {
     GPA=this->GPA;
     return true;
 }
-bool StudentRecClass::getNum(int Num)
+bool StudentRecClass::getNum(int &Num)
 {
     Num=this->Num;
     return true;
@@ -550,6 +552,14 @@ void StudentRecClass::show()
     printf("\nCumulative GPA: %f1.2",this->GPA);
     cout<<endl<<"No. of subj. taken: "<<this->Num;
     cout<<endl<<"No. of offers: "<<this->Offer.size();
+    cout<<endl<<"Offers: ";
+    for (int i=0;i<Offer.size();i++)
+    {
+        if (i!=0){
+            cout<<", ";
+        }
+        cout<<Offer[i];
+    }
 }
 
 /*---- Student Class methods ----*/
@@ -687,14 +697,19 @@ void loadrecfile()
             while (ss>>element)
             {
                 ProChoice.push_back(element);
-                //cout<<ProChoice.back()<<'\t';
             }
         }
+        StudentRecClass newRec;
+        newRec.setName(Name);
         cout<<endl;
-        //cout<<endl<<'*'<<ID<<'*';
-        //cout<<endl<<'*'<<Name<<'*';
-        //cout<<endl<<'*'<<GPA<<'*';
-        //cout<<endl<<'*'<<Num<<'*';
+        cout<<endl<<'*'<<ID<<'*';
+        cout<<endl<<'*'<<Name<<'*';
+        cout<<endl<<'*'<<GPA<<'*';
+        cout<<endl<<'*'<<Num<<'*';
+        for (int i=0;i<ProChoice.size();i++)
+        {
+            cout<<endl<<ProChoice[i];
+        }
 
 
     }
