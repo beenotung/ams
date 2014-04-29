@@ -175,21 +175,24 @@ public:
     void show();                            		//show student data in this record (one student only)
 
 private:
-    StuNameRec name;                                //dispose
+    StuNameRec name;                            //disposed
     string Name;
     string ID;
     vector<string> ProChoice;
     vector<string> Offer;
     float GPA;
-    int Num;										// Number of subjects taken
+    int Num;									// Number of subjects taken
 };
 class StudentClass
 {
 public:
     StudentClass(void);
-    vector<StudentRecClass> StudentData;			//vector,store st record
+    vector<StudentRecClass> StudentData;		//vector,store st record
     int index;
-    void add(StudentRecClass newRec);
+    void add(StudentRecClass newRec);           //add new element to StudentData and also update the Index to newest element
+    bool searchID(string ID);
+    bool searchName(string ID);
+
 private:
     int dummyint;
 };
@@ -592,6 +595,7 @@ StudentClass::StudentClass(void)
 void StudentClass::add(StudentRecClass newRec)
 {
     this->StudentData.push_back(newRec);
+    this->index=this->StudentData.size()-1;
 }
 
 
