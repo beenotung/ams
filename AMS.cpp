@@ -187,8 +187,9 @@ public:
     bool getOffer(int index, string & data);
     bool getPro(string & data);
     bool getOffer(string & data);
-
-    void show();                            		//show student data in this record (one student only)
+    //show student data in this record (one student only)
+    void showtable();
+    void showline();
 
 private:
     StuNameRec name;                            //disposed
@@ -210,6 +211,7 @@ public:
     bool searchName(string Name);
     void search();
     void select();                          // call Student Action Menu on the indexed studentrec
+    void showAZ();
 
 private:
     int dummyint;
@@ -648,7 +650,7 @@ bool StudentRecClass::getOffer(string & data)
     }
     return true;
 }
-void StudentRecClass::show()
+void StudentRecClass::showtable()
 {
     cout<<endl<<"Student Name: "<<this->Name;
     cout<<endl<<"Student ID: "<<this->ID;
@@ -663,6 +665,28 @@ void StudentRecClass::show()
             cout<<", ";
         }
         cout<<Offer[i];
+    }
+}
+void StudentRecClass::showline()
+{
+    cout<<this->ID;
+    cout<<"\t"<<this->Name;
+    if (this->Name.size()<15) cout<<"\t";
+    cout<<"\t"<<this->GPA;
+    if ((unsigned)0<=Offer.size())
+    {
+    cout<<"\t"<<"Nil";
+    }
+    else
+    {
+        for (int i=0; (unsigned)i<Offer.size(); i++)
+        {
+            if (i!=0)
+            {
+                cout<<", ";
+            }
+            cout<<Offer[i];
+        }
     }
 }
 
@@ -746,7 +770,23 @@ void StudentClass::select()
 {
     /// call menu searched
 }
+void StudentClass::showAZ()
+{
+    ///
+    //sort A-Z
+    //show all
 
+    cout<<endl<<"Student ID\tStudent Name\t\tCGPA\tOffered Prog.";
+    cout<<endl<<center("",'-');
+    for (int i=0; i<this->StudentData.size();i++)
+    {
+        StudentRecClass dRec=this->StudentData[i];
+        dRec.showline();
+        cout<<endl;
+    }
+
+        ///
+}
 
 // defining main functions
 
@@ -939,7 +979,7 @@ void Show_Information_Menu()
         switch(op)
         {
         case 1:
-            warning("1");
+            Student.showAZ();
             break;
         case 2:
             warning("2");
@@ -948,7 +988,9 @@ void Show_Information_Menu()
             warning("1 to 2 only!");
         }
     }
-    while(op!=5);
+    while((op!=1)&&(op!=2));
+    cout<<endl<<"Press [Enter] to continue..";
+    cin.get();
 }
 
 
