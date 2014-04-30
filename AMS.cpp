@@ -20,6 +20,7 @@ const int DELAYTIME=2000;
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -214,12 +215,21 @@ public:
     bool searchName(string Name);
     void search();
     void select();                          // call Student Action Menu on the indexed studentrec
+    void sortAZ();
+    void sortDGPA();
     void showAZ();
     void showDGPA();
 
 private:
     int dummyint;
 };
+
+bool sortName(const StudentRecClass & s1, const StudentRecClass & s2)
+{
+    s1.Name;
+    if (s1.Name != s2.Name) return s1.Name < s2.Name;
+    return s1.ID < s2.ID;
+}
 
 
 
@@ -784,10 +794,19 @@ void StudentClass::select()
 {
     /// call menu searched
 }
+void StudentClass::sortAZ()
+{
+    sort(this->StudentData.begin(), this->StudentData.end(), sortName);
+}
+void StudentClass::sortDGPA()
+{
+
+}
 void StudentClass::showAZ()
 {
     ///
     //sort A-Z
+    this->sortAZ();
     //show all
     cout<<endl<<"Student ID\tStudent Name\t\tCGPA\tOffered Prog.";
     cout<<endl<<center("",'-');
@@ -802,6 +821,7 @@ void StudentClass::showDGPA()
 {
     ///
     //sort D GPA
+    this->sortDGPA();
     //show all
     cout<<endl<<"Student ID\tStudent Name\t\tCGPA\tOffered Prog.";
     cout<<endl<<center("",'-');
