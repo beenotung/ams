@@ -5,7 +5,7 @@
 // magic numbers
 #define STURECFILENAME "StudentRecords.txt"
 #define PRORECFILENAME "ProgrammeRecords.txt"
-#define DELAYTIME 2000
+const int DELAYTIME=2000;
 
 // including header
 
@@ -43,10 +43,20 @@ void goleft(int n);
 string prel();
 void gorow(int n);
 void gotoxy(int x, int y);
+void cls();
 #elif _WIN32
 #include <windows.h>
 void gotoxy(int xpos, int ypos);
 #endif
+
+bool getint(int &a, string msg1, string msg2);
+bool getint(int &a);
+/*  the follow steps
+ *1. clear cin
+ *2. get one int from cin
+ *3. clear cin
+ *4. return if get int success
+*/
 
 string man_string(string ori,int n);
 /*copy the item with number n and return the new string
@@ -109,7 +119,7 @@ and return the new string
 
 void delay(int time);				//wait for time mini-second
 
-void warming(string);				//output expected error
+void warning(string);				//output expected error
 
 int leave(string msg);				//leave the problem with message msg
 
@@ -121,7 +131,7 @@ bool loadofile(ifstream &file, const char *filename, int count);	//load the outp
 bool loadofile(ifstream &file, const char *filename);				//loadthe output file with 10 times
 
 // declearing menu functions
-void showmenu(vector<string> msg_list,vector<string> func_list);
+void showmenu(vector<string> msg_list);
 void loadfileErrMenu(string filename);//out error msg in menue interface
 
 // declearing class
@@ -208,9 +218,13 @@ private:
 
 // declearing main functions
 
-void welcome();		//R1
+void welcome();                 //R1
 
-void loadrecfile();	//R2
+void loadrecfile();             //R2
+
+void AMS_System_Menu();         //R3
+
+void Show_Information_Menu();   //R4
 
 
 // declearing variable
@@ -276,7 +290,7 @@ void gotoxy(int x, int y)
 {
     cout << "\x1b["+to_string(y)+';'+to_string(x)+"H";
 }
-void system(string str)
+void cls()
 {
     for (int i=0; i<25; i++) cout<<endl;
 }
@@ -291,6 +305,29 @@ void gotoxy(int xpos, int ypos)
     SetConsoleCursorPosition(hOuput,scrn);
 }
 #endif
+
+bool getint(int &a, string msg1, string msg2)
+{
+    cin.clear();
+    if (msg1!="")
+        cout<<endl<<msg1;
+    string str;
+    getline(cin,str);
+    stringstream ss;
+    stringstream ss2;
+    ss<<str;
+    ss>>a;
+    ss2<<a;
+    cin.clear();
+    if (ss.str()!=ss2.str())
+        if (msg2!="")
+            cout<<endl<<msg2;
+    return (ss.str()==ss2.str());
+}
+bool getint(int &a)
+{
+    getint(a,"","");
+}
 
 string man_string(string ori,int n)
 {
@@ -363,16 +400,21 @@ void delay(int time)
     while(clock()-now<time);
 }
 
-void warming(string msg)
+void warning(string msg)
 {
+    line(2);
     cout<<msg;
+    delay(DELAYTIME);
 }
 
 int leave(string msg)
 {
-    cout<<"\nPress [Enter] to leave...";
-    cin.get();
     cout<<endl<<center(msg);
+    cout<<endl<<"Press [Enter] to leave...";
+    cin.get();
+    cout<<"the program will end soon..";
+    delay(DELAYTIME);
+    exit(1);
     return 1;
 }
 
@@ -396,12 +438,12 @@ bool loadifile(ifstream &file, const char *filename, int count)
         {
             msg+=" retrying "+to_string(--count)+" time";
             msg=(count>1)?msg+"s":msg;
-            warming(msg);
+            warning(msg);
             return loadifile(file,filename,count);
         }
         else
         {
-            warming(msg+" Please check!");
+            warning(msg+" Please check!");
             return false;
         }
     }
@@ -424,12 +466,12 @@ bool loadofile(ifstream &file, const char *filename, int count)
         {
             msg+=" retrying "+to_string(--count)+" time";
             msg=(count>1)?msg+"s":msg;
-            warming(msg);
+            warning(msg);
             return loadofile(file,filename,count);
         }
         else
         {
-            warming(msg+" Please check!");
+            warning(msg+" Please check!");
             return false;
         }
     }
@@ -441,17 +483,21 @@ bool loadofile(ifstream &file, const char *filename)
 
 
 // defining menu functions
-void menu(vector<string> msg_list,vector<string> func_list)
+void showmenu(vector<string> msg_list)
 {
-    cout<<center(msg_list[0],40,'*');
+    cout<<endl<<center(" "+msg_list[0]+" ",40,'*');
     for (int i=1; (unsigned)i<msg_list.size(); i++)
     {
         cout<<endl<<"("<<i<<") "<<msg_list[i];
     }
+    cout<<endl<<center("",40,'*');
+    line(25-msg_list.size()-3);
 }
+
 void loadfileErrMenu(string filename)
 {
     ///
+    leave("file *"+filename+"* not avaliable !");
 }
 
 
@@ -586,16 +632,20 @@ bool StudentRecClass::getOffer(int index, string & data)
 bool StudentRecClass::getPro(string & data)
 {
     data="";
-    for (int i=0;i<this->ProChoice.size();i++){
+    for (int i=0; i<this->ProChoice.size(); i++)
+    {
         if (i!=0) data+="\t";
-        data+=this->ProChoice[i];}
+        data+=this->ProChoice[i];
+    }
     return true;
 }
 bool StudentRecClass::getOffer(string & data)
 {
     data="";
-    for (int i=0;i<this->Offer.size();i++){
-   data+=this->Offer[i]+"\t";}
+    for (int i=0; i<this->Offer.size(); i++)
+    {
+        data+=this->Offer[i]+"\t";
+    }
     return true;
 }
 void StudentRecClass::show()
@@ -840,6 +890,66 @@ void loadrecfile()
 }
 
 
+void AMS_System_Menu()
+{
+    int op;
+    do
+    {
+        vector<string> msg_list;
+        msg_list.push_back("AMS System Menu");
+        msg_list.push_back("Show information");
+        msg_list.push_back("Search student");
+        msg_list.push_back("Articulation management");
+        msg_list.push_back("Export student list");
+        msg_list.push_back("Quit");
+        showmenu(msg_list);
+
+        while (!getint(op,"Enter Your Option (1 - 5): ",""))
+        {
+            warning("integer only!");
+        }
+        switch(op)
+        {
+        case 1:
+            Show_Information_Menu();
+            break;
+        case 5:
+            break;
+        default:
+            warning("1 to 5 only!");
+        }
+    }
+    while(op!=5);
+}
+
+void Show_Information_Menu()
+{
+    int op;
+    do
+    {
+        vector<string> msg_list;
+        msg_list.push_back("Show Information Menu");
+        msg_list.push_back("Show student information (A to Z)");
+        msg_list.push_back("Show programme information (Descending cutoff GPA)");
+        showmenu(msg_list);
+        while (!getint(op,"Enter Your Option (1 - 2): ",""))
+        {
+            warning("integer only!");
+        }
+        switch(op)
+        {
+        case 1:
+            warning("1");
+            break;
+        case 2:
+            warning("2");
+            break;
+        default:
+            warning("1 to 2 only!");
+        }
+    }
+    while(op!=5);
+}
 
 
 //================================================================//
@@ -852,9 +962,10 @@ int main()
     welcome();
 
     line(1);
-
     loadrecfile();
 
+    AMS_System_Menu();
 
-    return leave("nornal leave");
+    cls();
+    return leave("bye bye");
 }
