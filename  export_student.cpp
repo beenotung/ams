@@ -1,14 +1,8 @@
 #include <iostream>
-
 #include <fstream>
-
 using namespace std;
 
-
-
-void export_student()
-{
-	
+void export_student() {
 char filemem[50];
 char filename[50];
 system("cls");
@@ -25,17 +19,11 @@ myfile.close();
 
 cout<<"\n\n\tExport Students Successfully";
 cin.get();
-
 }
 
 
 
-int main()
-
-{
-	
+int main() {
 export_student();
-
 return 0;
-
 }
