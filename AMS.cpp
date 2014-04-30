@@ -5,7 +5,7 @@
 // magic numbers
 #define STURECFILENAME "StudentRecords.txt"
 #define PRORECFILENAME "ProgrammeRecords.txt"
-const int DELAYTIME=2000;
+const int DELAYTIME=5000;
 
 // including header
 
@@ -243,6 +243,8 @@ void AMS_System_Menu();         //R3
 
 void Show_Information_Menu();   //R4
 
+void Search_student();          //R5
+
 
 // declearing variable
 
@@ -414,7 +416,7 @@ void delay(int time)
 {
     clock_t now=clock();
 
-    while(clock()-now<time);
+    while((clock()-now) < time);
 }
 
 void warning(string msg)
@@ -998,6 +1000,9 @@ void AMS_System_Menu()
         case 1:
             Show_Information_Menu();
             break;
+        case 2:
+            Search_student();
+            break;
         case 5:
             break;
         default:
@@ -1038,6 +1043,13 @@ void Show_Information_Menu()
     cin.get();
 }
 
+void Search_student()
+{
+    Student.search();
+    cout<<"\n Index is *"<<Student.index<<"*";
+    cout<<"pppressss [[enter]]";
+    cin.get();
+}
 
 //================================================================//
 
