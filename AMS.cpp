@@ -157,7 +157,7 @@ public:
     * &b : nickname-data
     */
     bool setID(string);
-    bool setName(string);    
+    bool setName(string);
     bool setGPA(float);
     bool setNum(int);
     bool setPro(string);
@@ -191,7 +191,10 @@ public:
     int index;
     void add(StudentRecClass newRec);           //add new element to StudentData and also update the Index to newest element
     bool searchID(string ID);
-    bool searchName(string ID);
+    void searchID();
+    bool searchName(string Name);
+    void searchName();
+    void select();                          // call Student Action Menu on the indexed studentrec
 
 private:
     int dummyint;
@@ -432,7 +435,7 @@ bool loadofile(ifstream &file, const char *filename)
 void menu(vector<string> msg_list,vector<string> func_list)
 {
     cout<<center(msg_list[0],40,'*');
-    for (int i=1; i<msg_list.size(); i++)
+    for (int i=1; (unsigned)i<msg_list.size(); i++)
     {
         cout<<endl<<"("<<i<<") "<<msg_list[i];
     }
@@ -597,6 +600,55 @@ void StudentClass::add(StudentRecClass newRec)
     this->StudentData.push_back(newRec);
     this->index=this->StudentData.size()-1;
 }
+bool StudentClass::searchID(string ID)
+{
+    int found=0;
+    for (int i=0;i<this->StudentData.size();i++)
+    {
+        if (this->StudentData[i].ID==ID)
+        {
+            found++;
+            this->index=i;
+        }
+    }
+    return (found>0);
+}
+void StudentClass::searchID()
+{
+    cout<<endl<<endl<<"Please input student ID: ";
+    string ID;
+        getline(cin,ID);
+        bool found=this->searchID(ID);
+        if (found)
+        {
+            this->select();
+        } else
+        {
+            cout<<endl<<"The student ID *"<<ID<<"* is NOT found";
+                  cout<<endl<<"returning back to the \"AMS System Menu\"..";
+        }
+
+}
+bool StudentClass::searchName(string Name)
+{
+    int found=0;
+    for (int i=0;i<this->StudentData.size();i++)
+    {
+        if (this->StudentData[i].Name==Name)
+        {
+            found++;
+        }
+    }
+    if (found>1)
+    {
+        cout<<endl<<center(center("Expected issue",20,'!'),40);
+        cout<<endl<<"More than one student has the same name.";
+        this->searchID();
+            ///
+    }
+
+    return (found>0);
+}
 
 
 // defining main functions
@@ -736,14 +788,21 @@ void loadrecfile()
         for (int i=0;i<ProChoice.size();i++)
             newRec.setPro(ProChoice[i]);
         Student.add(newRec);
+
+        string test;
+        bool ok;
+        ok=Student.searchID();
+
+
+        cout<<test;
         cout<<endl;
-        cout<<endl<<'*'<<ID<<'*';
-        cout<<endl<<'*'<<Name<<'*';
-        cout<<endl<<'*'<<GPA<<'*';
-        cout<<endl<<'*'<<Num<<'*';
+        //cout<<endl<<'*'<<ID<<'*';
+        //cout<<endl<<'*'<<Name<<'*';
+        //cout<<endl<<'*'<<GPA<<'*';
+        //cout<<endl<<'*'<<Num<<'*';
         for (int i=0;i<ProChoice.size();i++)
         {
-            cout<<endl<<ProChoice[i];
+            //cout<<endl<<ProChoice[i];
         }
 
 
