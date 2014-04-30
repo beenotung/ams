@@ -14,6 +14,11 @@ cin.getline(filename,50);
 ofstream myfile;
 myfile.open (filename);
 myfile << filemem << "\n";
+
+//$  string ProChoice;
+//$  this->StudentData[Student.index].getProChoice(dProChoice);
+//$  myfile<<ProChoice;
+
 myfile.close();
 
 cout<<"\n\n\tExport Students Successfully";
