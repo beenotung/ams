@@ -54,6 +54,9 @@ eg:string str=man_string("abc",3);
 str == "abcabcabc"
 */
 
+void line(int n);
+/*make n new line(s)*/
+
 string space(int n,char c);
 /*produce char c with number of n
 and return new string
@@ -172,6 +175,8 @@ public:
     bool getNum(int &);
     bool getPro(int index, string & data);
     bool getOffer(int index, string & data);
+    bool getPro(string & data);
+    bool getOffer(string & data);
 
     void show();                            		//show student data in this record (one student only)
 
@@ -295,6 +300,11 @@ string man_string(string ori,int n)
         temp+=ori;
     }
     return temp;
+}
+
+void line(int n)
+{
+    cout<<man_string("\n",n);
 }
 
 string space(int n,char c)
@@ -574,6 +584,21 @@ bool StudentRecClass::getOffer(int index, string & data)
     data=this->Offer[index];
     return true;
 }
+bool StudentRecClass::getPro(string & data)
+{
+    data="";
+    for (int i=0;i<this->ProChoice.size();i++){
+        if (i!=0) data+="\t";
+        data+=this->ProChoice[i];}
+    return true;
+}
+bool StudentRecClass::getOffer(string & data)
+{
+    data="";
+    for (int i=0;i<this->Offer.size();i++){
+   data+=this->Offer[i]+"\t";}
+    return true;
+}
 void StudentRecClass::show()
 {
     cout<<endl<<"Student Name: "<<this->Name;
@@ -602,26 +627,6 @@ void StudentClass::add(StudentRecClass newRec)
 {
     this->StudentData.push_back(newRec);
     this->index=this->StudentData.size()-1;
-    ///
-    bool ok;
-    string str;
-    float gpa;
-    ok=newRec.getID(str);
-    cout<<endl<<"ID *"<<str<<'*';
-    ok=newRec.getName(str);
-    cout<<endl<<"Name *"<<str<<'*';
-    ok=newRec.getGPA(gpa);
-    cout<<endl<<"GPA* "<<str<<'*';
-
-    //cout<<endl<<'*'<<Name<<'*';
-    //cout<<endl<<'*'<<GPA<<'*';
-    //cout<<endl<<'*'<<Num<<'*';
-    vector<string>ProChoice;
-    for (int i=0; (unsigned)i<ProChoice.size(); i++)
-    {
-        //cout<<endl<<ProChoice[i];
-    }
-    ///
 }
 bool StudentClass::searchID(string ID)
 {
@@ -724,7 +729,7 @@ void loadrecfile(ifstream & recfile, string filename)
 }
 void loadrecfile()
 {
-    cout<<"loading files";
+    cout<<endl<<"Loading information from files...";
     ifstream sturecfile,prorecfile;
     string line;
     loadrecfile(sturecfile,STURECFILENAME);
@@ -847,7 +852,7 @@ int main()
 {
     welcome();
 
-    cout<<man_string("\n",2);
+    line(1);
 
     loadrecfile();
 
