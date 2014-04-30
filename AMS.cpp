@@ -209,7 +209,7 @@ class StudentClass
 {
 public:
     StudentClass(void);
-    vector<StudentRecClass> StudentData;		//vector,store st record
+    vector<StudentRecClass> StudentData;		//vector,store student record
     int index;
     void add(StudentRecClass newRec);           //add new element to StudentData and also update the Index to newest element
     int searchID(string ID);
@@ -232,6 +232,45 @@ bool sortName(const StudentRecClass & s1, const StudentRecClass & s2)
 }
 
 
+class ProRecClass
+{
+public:
+    string school;
+    string fullname;
+    string code;
+    int quota;
+    float cutoffGPA;
+    string deadline;
+    void showtable();
+    void showline();
+private:
+    int dummy;
+};
+class ProClass
+{
+public:
+    ProClass(void);
+    vector<ProRecClass> ProData;		//vector,store program record
+    int index;
+    void add(ProRecClass newRec);           //add new element to StudentData and also update the Index to newest element
+    int searchCode(string code);
+    void search();
+    void select();                          // call Student Action Menu on the indexed studentrec
+
+    void sortcutoffGPA();
+    void showAZ();
+    void showDGPA();
+
+private:
+    int dummyint;
+};
+
+bool sortPro(const StudentRecClass & s1, const StudentRecClass & s2)
+{
+    if (s1.Name != s2.Name) return s1.Name < s2.Name;
+    return s1.ID < s2.ID;
+}
+
 
 // declearing main functions
 
@@ -248,11 +287,14 @@ void Student_Action_Menu();     //R5
 
 void Articulation_Management_Menu();    //R6
 
+void Export();                  //R7
+
 
 // declearing variable
 
 GroupMemberClass GroupMember;
 StudentClass Student;
+ProClass Pro;
 
 
 //================================================================//
@@ -857,6 +899,19 @@ void StudentClass::showDGPA()
     }
 }
 
+/*---- Program Class methods ----*/
+ProClass::ProClass(void)
+{
+    this->index=-1;
+    this->ProData.clear();
+}
+void ProClass::add(ProRecClass newRec)
+{
+        this->ProData.push_back(newRec);
+        this->index=this->ProData.size()-1;
+}
+
+
 // defining main functions
 
 void welcome()
@@ -896,8 +951,9 @@ void loadrecfile()
     {
         exit(2);
     }
-    string ID,Pro;
-    //StuNameRec Name;
+    /*read student file*/
+    string ID;
+    //StuNameRec name;
     string Name;
     float GPA;
     int Num;
@@ -996,6 +1052,119 @@ void loadrecfile()
         Student.add(newRec);
     }
     while (newline!=oldline);
+    /*read program file*/
+    ///
+    string school;
+    string fullname;
+    string code;
+    int quota;
+    float cutoffGPA;
+    string deadline;
+    oldline="";
+    newline="1";
+    do
+    {
+        oldline=newline;
+        getline(prorecfile,newline);
+        // read school
+        int i1=0;
+        while (newline[i1]!='\t')
+        {
+            i1++;
+        }
+        {
+            school="";
+            for (int i=0; i<i1; i++)
+            {
+               school+=newline[i];
+            }
+        }
+        // read fullname
+        int i2=i1+1;
+        while (newline[i2]!='\t')
+        {
+            i2++;
+        }
+        fullname="";
+        for (int i=i1+1; i<i2; i++)
+        {
+            fullname+=newline[i];
+        }
+        // read Program code
+        int i3=i2+1;
+        while (newline[i3]!='\t')
+        {
+            i3++;
+        }
+        code="";
+        for (int i=i2+1; i<i3; i++)
+        {
+            code+=newline[i];
+        }
+        // read quota
+        int i4=i3+1;
+        while (newline[i4]!='\t')
+        {
+            i4++;
+        }
+        quota=0;
+        {
+            string tmp;
+            stringstream ss;
+            for (int i=i3+1; i<i4; i++)
+            {
+                tmp+=newline[i];
+            }
+            ss<<tmp;
+            ss>>quota;
+        }
+        // read cutoffGPA
+        int i5=i4+1;
+        while (newline[i5]!='\t')
+        {
+            i5++;
+        }
+        cutoffGPA=0;
+        {
+            string tmp;
+            stringstream ss;
+            for (int i=i4+1; i<i5; i++)
+            {
+                tmp+=newline[i];
+            }
+            ss<<tmp;
+            ss>>cutoffGPA;
+        }
+        // read deadline
+        int i2=i1+1;
+        while (newline[i2]!='\t')
+        {
+            i2++;
+        }
+        deadline="";
+        for (int i=i1+1; i<i2; i++)
+        {
+            deadline+=newline[i];
+        }
+        ProRecClass newRec;
+        newRec.school=school;
+        newRec.fullname=fullname;
+        newRec.code=code;
+        newRec.quota=quota;
+        newRec.cutoffGPA=cutoffGPA;
+        newRec.deadline=deadline;
+        Pro.add(newRec);
+        ///
+        cout<<endl<<"school*"<<school<<"*";
+        cout<<endl<<"fullname*"<<fullname<<"*";
+        cout<<endl<<"code*"<<code<<"*";
+        cout<<endl<<"quota*"<<quota<<"*";
+        cout<<endl<<"cutoffGPA*"<<cutoffGPA<<"*";
+        cout<<endl<<"deadline*"<<deadline<<"*";
+        cout<<endl;
+               ///
+    }
+    while (newline!=oldline);
 }
 
 
@@ -1028,6 +1197,9 @@ void AMS_System_Menu()
             break;
         case 3:
             Articulation_Management_Menu();
+            break;
+        case 4:
+            Export();
             break;
         case 5:
         {
@@ -1139,6 +1311,18 @@ void Articulation_Management_Menu()
            }
        }
        while(op!=5);
+}
+
+void Export()
+{
+    cout<<endl<<"Enter the Programme code: ";
+    string code;
+    cin>>code;
+    cout<<endl<<"Enter the filename to export to: ";
+    string filename;
+    cin>>filename;
+    export_file(code,filename);
+    ///
 }
 
 //================================================================//
