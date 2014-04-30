@@ -223,7 +223,7 @@ private:
     int dummyint;
 };
 
-bool sortNameAZ(const StudentRecClass & s1, const StudentRecClass & s2)
+bool NameAZ(const StudentRecClass & s1, const StudentRecClass & s2)
 {
     if (s1.Name != s2.Name) return s1.Name < s2.Name;
     return s1.ID < s2.ID;
@@ -262,7 +262,7 @@ private:
     int dummyint;
 };
 
-bool sortcutoffGPA(const ProRecClass & s1, const ProRecClass & s2)
+bool cutoffGPA(const ProRecClass & s1, const ProRecClass & s2)
 {
     if (s1.cutoffGPA != s2.cutoffGPA) return s1.cutoffGPA > s2.cutoffGPA;
     return s1.quota > s2.quota;
@@ -859,7 +859,7 @@ void StudentClass::select()
 }
 void StudentClass::sortNameAZ()
 {
-    sort(this->StudentData.begin(), this->StudentData.end(), sortNameAZ);
+    sort(this->StudentData.begin(), this->StudentData.end(), NameAZ);
 }
 void StudentClass::showNameAZ()
 {
@@ -879,13 +879,14 @@ void StudentClass::showNameAZ()
 /*----- ProRecClass methods -----*/
 void ProRecClass::showline()
 {
-    cout<<this->school;
-    cout<<"\t"<<this->fullname;
-    if (this->fullname.size()<15) cout<<"\t";
-    cout<<"\t"<<this->code;
-    cout<<"\t"<<this->quota;
-    cout<<"\t"<<this->vacancy;
-    cout<<"\t"<<this->cutoffGPA;
+    cout<<left;
+    cout<<setw(8)<<this->school;
+    cout<<setw(32)<<this->fullname;
+    cout<<setw(12)<<this->code;
+    cout<<setw(8)<<this->quota;
+    cout<<setw(8)<<this->vacancy;
+    cout<<setw(8)<<this->cutoffGPA;
+    cout<<right;
 }
 /*---- Program Class methods ----*/
 ProClass::ProClass(void)
@@ -902,18 +903,25 @@ void ProClass::add(ProRecClass newRec)
 }
 void ProClass::sortcutoffGPA()
 {
-    sort(this->ProData.begin(), this->ProData.end(), sortcutoffGPA);
+    sort(this->ProData.begin(), this->ProData.end(), cutoffGPA);
 }
 void ProClass::showDcutoffGPA()
 {
     //sort cutoffGPA decreasingly
     this->sortcutoffGPA();
     //show all
-    cout<<endl<<"Univ\tProgramme Name\t\tProg. Code\tQuota\tVacancy\tCutoff GPA";
+cout<<left;
+          cout<<setw(8)<<"Univ";
+          cout<<setw(32)<<"Programme Name";
+          cout<<setw(12)<<"Prog. Code";
+          cout<<setw(8)<<"Quota";
+          cout<<setw(8)<<"Vacancy";
+          cout<<setw(8)<<"Cutoff GPA";
+        cout<<right;
     cout<<endl<<center("",'-');
     for (int i=0; (unsigned)i<(this->ProData.size()); i++)
     {
-        ProRecClass dRec=this->StudentData[i];
+        ProRecClass dRec=this->ProData[i];
         cout<<endl;
         dRec.showline();
     }
