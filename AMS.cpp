@@ -907,8 +907,10 @@ ProClass::ProClass(void)
 }
 void ProClass::add(ProRecClass newRec)
 {
+    if (newRec.deadline!=""){
         this->ProData.push_back(newRec);
         this->index=this->ProData.size()-1;
+    }
 }
 
 
@@ -951,7 +953,7 @@ void loadrecfile()
     {
         exit(2);
     }
-    /*read student file*/
+    /*read student file*/{
     string ID;
     //StuNameRec name;
     string Name;
@@ -1052,7 +1054,7 @@ void loadrecfile()
         Student.add(newRec);
     }
     while (newline!=oldline);
-    /*read program file*/
+    }/*read program file*/{
     ///
     string school;
     string fullname;
@@ -1060,8 +1062,8 @@ void loadrecfile()
     int quota;
     float cutoffGPA;
     string deadline;
-    oldline="";
-    newline="1";
+    string oldline="";
+    string newline="1";
     do
     {
         oldline=newline;
@@ -1136,13 +1138,9 @@ void loadrecfile()
             ss>>cutoffGPA;
         }
         // read deadline
-        int i2=i1+1;
-        while (newline[i2]!='\t')
-        {
-            i2++;
-        }
+        int i6=newline.length();
         deadline="";
-        for (int i=i1+1; i<i2; i++)
+        for (int i=i5+1; i<i6; i++)
         {
             deadline+=newline[i];
         }
@@ -1154,17 +1152,9 @@ void loadrecfile()
         newRec.cutoffGPA=cutoffGPA;
         newRec.deadline=deadline;
         Pro.add(newRec);
-        ///
-        cout<<endl<<"school*"<<school<<"*";
-        cout<<endl<<"fullname*"<<fullname<<"*";
-        cout<<endl<<"code*"<<code<<"*";
-        cout<<endl<<"quota*"<<quota<<"*";
-        cout<<endl<<"cutoffGPA*"<<cutoffGPA<<"*";
-        cout<<endl<<"deadline*"<<deadline<<"*";
-        cout<<endl;
-               ///
     }
     while (newline!=oldline);
+    }
 }
 
 
@@ -1321,7 +1311,7 @@ void Export()
     cout<<endl<<"Enter the filename to export to: ";
     string filename;
     cin>>filename;
-    export_file(code,filename);
+//    export_file(code,filename);
     ///
 }
 
