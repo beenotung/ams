@@ -5,6 +5,7 @@
 // magic numbers
 #define STURECFILENAME "StudentRecords.txt"
 #define PRORECFILENAME "ProgrammeRecords.txt"
+#define DELAYTIME 2000
 
 // including header
 
@@ -191,9 +192,8 @@ public:
     int index;
     void add(StudentRecClass newRec);           //add new element to StudentData and also update the Index to newest element
     bool searchID(string ID);
-    void searchID();
     bool searchName(string Name);
-    void searchName();
+    void search();
     void select();                          // call Student Action Menu on the indexed studentrec
 
 private:
@@ -517,10 +517,12 @@ bool StudentRecClass::setNum(int Num)
 bool StudentRecClass::setPro(string newdata)
 {
     this->ProChoice.push_back(newdata);
+    return true;
 }
 bool StudentRecClass::setOffer(string newdata)
 {
     this->Offer.push_back(newdata);
+    return true;
 }
 
 bool StudentRecClass::getName(char mode, string &data)
@@ -580,9 +582,10 @@ void StudentRecClass::show()
     cout<<endl<<"No. of subj. taken: "<<this->Num;
     cout<<endl<<"No. of offers: "<<this->Offer.size();
     cout<<endl<<"Offers: ";
-    for (int i=0;i<Offer.size();i++)
+    for (int i=0; (unsigned)i<Offer.size(); i++)
     {
-        if (i!=0){
+        if (i!=0)
+        {
             cout<<", ";
         }
         cout<<Offer[i];
@@ -592,20 +595,42 @@ void StudentRecClass::show()
 /*---- Student Class methods ----*/
 StudentClass::StudentClass(void)
 {
-    this->index-1;
+    this->index=-1;
     this->StudentData.clear();
 }
 void StudentClass::add(StudentRecClass newRec)
 {
     this->StudentData.push_back(newRec);
     this->index=this->StudentData.size()-1;
+    ///
+    bool ok;
+    string str;
+    float gpa;
+    ok=newRec.getID(str);
+    cout<<endl<<"ID *"<<str<<'*';
+    ok=newRec.getName(str);
+    cout<<endl<<"Name *"<<str<<'*';
+    ok=newRec.getGPA(gpa);
+    cout<<endl<<"GPA* "<<str<<'*';
+
+    //cout<<endl<<'*'<<Name<<'*';
+    //cout<<endl<<'*'<<GPA<<'*';
+    //cout<<endl<<'*'<<Num<<'*';
+    vector<string>ProChoice;
+    for (int i=0; (unsigned)i<ProChoice.size(); i++)
+    {
+        //cout<<endl<<ProChoice[i];
+    }
+    ///
 }
 bool StudentClass::searchID(string ID)
 {
     int found=0;
-    for (int i=0;i<this->StudentData.size();i++)
+    for (int i=0; (unsigned)i<this->StudentData.size(); i++)
     {
-        if (this->StudentData[i].ID==ID)
+        string dID;
+        this->StudentData[i].getID(dID);
+        if (dID==ID)
         {
             found++;
             this->index=i;
@@ -613,42 +638,59 @@ bool StudentClass::searchID(string ID)
     }
     return (found>0);
 }
-void StudentClass::searchID()
-{
-    cout<<endl<<endl<<"Please input student ID: ";
-    string ID;
-        getline(cin,ID);
-        bool found=this->searchID(ID);
-        if (found)
-        {
-            this->select();
-        } else
-        {
-            cout<<endl<<"The student ID *"<<ID<<"* is NOT found";
-                  cout<<endl<<"returning back to the \"AMS System Menu\"..";
-        }
-
-}
 bool StudentClass::searchName(string Name)
 {
     int found=0;
-    int *i=&this->index;
-    for (*i=0;*i<this->StudentData.size();*i++)
+    for (int i=0; (unsigned)i<this->StudentData.size(); i++)
     {
-        if (this->StudentData[*i].Name==Name)
+        string dName;
+        this->StudentData[i].getName(dName);
+        if (dName==Name)
         {
             found++;
+            this->index=i;
         }
     }
     if (found>1)
     {
         cout<<endl<<center(center("Expected issue",20,'!'),40);
-        cout<<endl<<"More than one student has the same name.";
-        this->searchID();
-            ///
+        cout<<endl<<"More than one student has this name. Please search by ID for this student...";
     }
-
-    return (found>0);
+    return (found==1);
+}
+void StudentClass::search()
+{
+    cout<<endl<<endl<<"Please input student Name or ID: ";
+    string input;
+    getline(cin,input);
+    bool isID=(input.size()==9);
+    int i=0;
+    while ((isID)&&(i<9))
+    {
+        isID=((input[i]>='0')&&(input[i]<='9'));
+        i++;
+    }
+    bool found;
+    if (isID)
+    {
+        found=this->searchID(input);
+    }
+    else
+    {
+        found=this->searchName(input);
+    }
+    if (found)
+    {
+        this->select();
+    }
+    else
+    {
+        cout<<endl<<"student *"<<input<<"* is not found..";
+    }
+}
+void StudentClass::select()
+{
+    /// call menu searched
 }
 
 
@@ -786,27 +828,9 @@ void loadrecfile()
         newRec.setID(ID);
         newRec.setGPA(GPA);
         newRec.setNum(Num);
-        for (int i=0;i<ProChoice.size();i++)
+        for (int i=0; (unsigned)i<ProChoice.size(); i++)
             newRec.setPro(ProChoice[i]);
         Student.add(newRec);
-
-        string test;
-        bool ok;
-        ok=Student.searchID();
-
-
-        cout<<test;
-        cout<<endl;
-        //cout<<endl<<'*'<<ID<<'*';
-        //cout<<endl<<'*'<<Name<<'*';
-        //cout<<endl<<'*'<<GPA<<'*';
-        //cout<<endl<<'*'<<Num<<'*';
-        for (int i=0;i<ProChoice.size();i++)
-        {
-            //cout<<endl<<ProChoice[i];
-        }
-
-
     }
     while (newline!=oldline);
 }
