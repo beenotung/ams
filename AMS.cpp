@@ -632,9 +632,10 @@ void StudentClass::searchID()
 bool StudentClass::searchName(string Name)
 {
     int found=0;
-    for (int i=0;i<this->StudentData.size();i++)
+    int *i=&this->index;
+    for (*i=0;*i<this->StudentData.size();*i++)
     {
-        if (this->StudentData[i].Name==Name)
+        if (this->StudentData[*i].Name==Name)
         {
             found++;
         }
