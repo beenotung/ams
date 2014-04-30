@@ -813,8 +813,8 @@ void StudentClass::showAZ()
     for (int i=0; i<this->StudentData.size(); i++)
     {
         StudentRecClass dRec=this->StudentData[i];
-        dRec.showline();
         cout<<endl;
+        dRec.showline();
     }
 }
 void StudentClass::showDGPA()
@@ -1050,6 +1050,8 @@ int main()
 
     line(1);
     loadrecfile();
+    cout<<"\n\n  Press [Enter] to continue...";
+    cin.get();
 
     AMS_System_Menu();
 
