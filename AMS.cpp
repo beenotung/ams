@@ -370,9 +370,8 @@ void warming(string msg)
 
 int leave(string msg)
 {
-    cout<<"\nEnter a char to leave...";
-    char c;
-    cin>>c;
+    cout<<"\nPress [Enter] to leave...";
+    cin.get();
     cout<<endl<<center(msg);
     return 1;
 }
