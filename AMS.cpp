@@ -130,6 +130,8 @@ bool loadifile(ifstream &file, const char *filename);				//loadthe input file wi
 bool loadofile(ifstream &file, const char *filename, int count);	//load the output file with count times
 bool loadofile(ifstream &file, const char *filename);				//loadthe output file with 10 times
 
+bool isID(string input);
+
 // declearing menu functions
 void showmenu(vector<string> msg_list);
 void loadfileErrMenu(string filename);//out error msg in menue interface
@@ -190,8 +192,7 @@ public:
     //show student data in this record (one student only)
     void showtable();
     void showline();
-
-private:
+//private:
     StuNameRec name;                            //disposed
     string Name;
     string ID;
@@ -199,6 +200,8 @@ private:
     vector<string> Offer;
     float GPA;
     int Num;									// Number of subjects taken
+private:
+    int dummy;
 };
 class StudentClass
 {
@@ -212,10 +215,12 @@ public:
     void search();
     void select();                          // call Student Action Menu on the indexed studentrec
     void showAZ();
+    void showDGPA();
 
 private:
     int dummyint;
 };
+
 
 
 // declearing main functions
@@ -328,7 +333,7 @@ bool getint(int &a, string msg1, string msg2)
 }
 bool getint(int &a)
 {
-    getint(a,"","");
+    return getint(a,"","");
 }
 
 string man_string(string ori,int n)
@@ -483,6 +488,19 @@ bool loadofile(ifstream &file, const char *filename)
     return loadofile(file,filename,10);
 }
 
+bool isID(string input)
+{
+    bool ok=(input.size()==9);
+    int i=0;
+    while ((ok)&&(i<8))
+    {
+        ok=((input[i]>='0')&&(input[i]<='9'));
+        i++;
+    }
+    ok=ok&&((input[8]=='A')||(input[8]=='a')||(input[8]=='S')||(input[8]=='s'));
+    return ok;
+}
+
 
 // defining menu functions
 void showmenu(vector<string> msg_list)
@@ -634,7 +652,7 @@ bool StudentRecClass::getOffer(int index, string & data)
 bool StudentRecClass::getPro(string & data)
 {
     data="";
-    for (int i=0; i<this->ProChoice.size(); i++)
+    for (int i=0; (unsigned)i<this->ProChoice.size(); i++)
     {
         if (i!=0) data+="\t";
         data+=this->ProChoice[i];
@@ -644,7 +662,7 @@ bool StudentRecClass::getPro(string & data)
 bool StudentRecClass::getOffer(string & data)
 {
     data="";
-    for (int i=0; i<this->Offer.size(); i++)
+    for (int i=0; (unsigned)i<this->Offer.size(); i++)
     {
         data+=this->Offer[i]+"\t";
     }
@@ -673,9 +691,9 @@ void StudentRecClass::showline()
     cout<<"\t"<<this->Name;
     if (this->Name.size()<15) cout<<"\t";
     cout<<"\t"<<this->GPA;
-    if ((unsigned)0<=Offer.size())
+    if (Offer.size()==0)
     {
-    cout<<"\t"<<"Nil";
+        cout<<"\t"<<"Nil";
     }
     else
     {
@@ -698,8 +716,11 @@ StudentClass::StudentClass(void)
 }
 void StudentClass::add(StudentRecClass newRec)
 {
-    this->StudentData.push_back(newRec);
-    this->index=this->StudentData.size()-1;
+    if (isID(newRec.ID))
+    {
+        this->StudentData.push_back(newRec);
+        this->index=this->StudentData.size()-1;
+    }
 }
 bool StudentClass::searchID(string ID)
 {
@@ -741,15 +762,8 @@ void StudentClass::search()
     cout<<endl<<endl<<"Please input student Name or ID: ";
     string input;
     getline(cin,input);
-    bool isID=(input.size()==9);
-    int i=0;
-    while ((isID)&&(i<9))
-    {
-        isID=((input[i]>='0')&&(input[i]<='9'));
-        i++;
-    }
     bool found;
-    if (isID)
+    if (isID(input))
     {
         found=this->searchID(input);
     }
@@ -775,17 +789,28 @@ void StudentClass::showAZ()
     ///
     //sort A-Z
     //show all
-
     cout<<endl<<"Student ID\tStudent Name\t\tCGPA\tOffered Prog.";
     cout<<endl<<center("",'-');
-    for (int i=0; i<this->StudentData.size();i++)
+    for (int i=0; i<this->StudentData.size(); i++)
     {
         StudentRecClass dRec=this->StudentData[i];
         dRec.showline();
         cout<<endl;
     }
-
-        ///
+}
+void StudentClass::showDGPA()
+{
+    ///
+    //sort D GPA
+    //show all
+    cout<<endl<<"Student ID\tStudent Name\t\tCGPA\tOffered Prog.";
+    cout<<endl<<center("",'-');
+    for (int i=0; i<this->StudentData.size(); i++)
+    {
+        StudentRecClass dRec=this->StudentData[i];
+        dRec.showline();
+        cout<<endl;
+    }
 }
 
 // defining main functions
@@ -982,7 +1007,7 @@ void Show_Information_Menu()
             Student.showAZ();
             break;
         case 2:
-            warning("2");
+            Student.showDGPA();
             break;
         default:
             warning("1 to 2 only!");
