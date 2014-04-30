@@ -440,7 +440,7 @@ int leave(string msg)
 bool fexists(const char *filename)
 {
     ifstream ifile(filename);
-    return ifile;
+    return ifile.is_open();
 }
 
 bool loadifile(ifstream &file, const char *filename, int count)
@@ -812,7 +812,7 @@ void StudentClass::showAZ()
     //show all
     cout<<endl<<"Student ID\tStudent Name\t\tCGPA\tOffered Prog.";
     cout<<endl<<center("",'-');
-    for (int i=0; i<this->StudentData.size(); i++)
+    for (int i=0; (unsigned)i<(this->StudentData.size()); i++)
     {
         StudentRecClass dRec=this->StudentData[i];
         cout<<endl;
