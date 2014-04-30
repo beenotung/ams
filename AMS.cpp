@@ -216,16 +216,14 @@ public:
     int searchName(string Name);
     void search();
     void select();                          // call Student Action Menu on the indexed studentrec
-    void sortAZ();
-    void sortDGPA();
-    void showAZ();
-    void showDGPA();
+    void sortNameAZ();
+    void showNameAZ();
 
 private:
     int dummyint;
 };
 
-bool sortName(const StudentRecClass & s1, const StudentRecClass & s2)
+bool sortNameAZ(const StudentRecClass & s1, const StudentRecClass & s2)
 {
     if (s1.Name != s2.Name) return s1.Name < s2.Name;
     return s1.ID < s2.ID;
@@ -239,6 +237,7 @@ public:
     string fullname;
     string code;
     int quota;
+    int vacancy;
     float cutoffGPA;
     string deadline;
     void showtable();
@@ -256,19 +255,17 @@ public:
     int searchCode(string code);
     void search();
     void select();                          // call Student Action Menu on the indexed studentrec
-
     void sortcutoffGPA();
-    void showAZ();
-    void showDGPA();
+    void showDcutoffGPA();
 
 private:
     int dummyint;
 };
 
-bool sortPro(const StudentRecClass & s1, const StudentRecClass & s2)
+bool sortcutoffGPA(const ProRecClass & s1, const ProRecClass & s2)
 {
-    if (s1.Name != s2.Name) return s1.Name < s2.Name;
-    return s1.ID < s2.ID;
+    if (s1.cutoffGPA != s2.cutoffGPA) return s1.cutoffGPA > s2.cutoffGPA;
+    return s1.quota > s2.quota;
 }
 
 
@@ -860,19 +857,14 @@ void StudentClass::select()
     //Student Action Menu R5
     Student_Action_Menu();
 }
-void StudentClass::sortAZ()
+void StudentClass::sortNameAZ()
 {
-    sort(this->StudentData.begin(), this->StudentData.end(), sortName);
+    sort(this->StudentData.begin(), this->StudentData.end(), sortNameAZ);
 }
-void StudentClass::sortDGPA()
+void StudentClass::showNameAZ()
 {
-
-}
-void StudentClass::showAZ()
-{
-    ///
     //sort A-Z
-    this->sortAZ();
+    this->sortNameAZ();
     //show all
     cout<<endl<<"Student ID\tStudent Name\t\tCGPA\tOffered Prog.";
     cout<<endl<<center("",'-');
@@ -883,22 +875,18 @@ void StudentClass::showAZ()
         dRec.showline();
     }
 }
-void StudentClass::showDGPA()
-{
-    ///
-    //sort D GPA
-    this->sortDGPA();
-    //show all
-    cout<<endl<<"Student ID\tStudent Name\t\tCGPA\tOffered Prog.";
-    cout<<endl<<center("",'-');
-    for (int i=0; (unsigned)i<this->StudentData.size(); i++)
-    {
-        StudentRecClass dRec=this->StudentData[i];
-        dRec.showline();
-        cout<<endl;
-    }
-}
 
+/*----- ProRecClass methods -----*/
+void ProRecClass::showline()
+{
+    cout<<this->school;
+    cout<<"\t"<<this->fullname;
+    if (this->fullname.size()<15) cout<<"\t";
+    cout<<"\t"<<this->code;
+    cout<<"\t"<<this->quota;
+    cout<<"\t"<<this->vacancy;
+    cout<<"\t"<<this->cutoffGPA;
+}
 /*---- Program Class methods ----*/
 ProClass::ProClass(void)
 {
@@ -910,6 +898,24 @@ void ProClass::add(ProRecClass newRec)
     if (newRec.deadline!=""){
         this->ProData.push_back(newRec);
         this->index=this->ProData.size()-1;
+    }
+}
+void ProClass::sortcutoffGPA()
+{
+    sort(this->ProData.begin(), this->ProData.end(), sortcutoffGPA);
+}
+void ProClass::showDcutoffGPA()
+{
+    //sort cutoffGPA decreasingly
+    this->sortcutoffGPA();
+    //show all
+    cout<<endl<<"Univ\tProgramme Name\t\tProg. Code\tQuota\tVacancy\tCutoff GPA";
+    cout<<endl<<center("",'-');
+    for (int i=0; (unsigned)i<(this->ProData.size()); i++)
+    {
+        ProRecClass dRec=this->StudentData[i];
+        cout<<endl;
+        dRec.showline();
     }
 }
 
@@ -1225,10 +1231,10 @@ void Show_Information_Menu()
         switch(op)
         {
         case 1:
-            Student.showAZ();
+            Student.showNameAZ();
             break;
         case 2:
-            Student.showDGPA();
+            Pro.showDcutoffGPA();
             break;
         default:
             warning("1 to 2 only!");
