@@ -5,7 +5,7 @@
 // magic numbers
 #define STURECFILENAME "StudentRecords.txt"
 #define PRORECFILENAME "ProgrammeRecords.txt"
-const int DELAYTIME=5000;
+const int DELAYTIME=3000;
 
 // including header
 
@@ -44,11 +44,12 @@ void goleft(int n);
 string prel();
 void gorow(int n);
 void gotoxy(int x, int y);
-void cls();
 #elif _WIN32
 #include <windows.h>
 void gotoxy(int xpos, int ypos);
 #endif
+
+void cls();
 
 bool getint(int &a, string msg1, string msg2);
 bool getint(int &a);
@@ -211,8 +212,8 @@ public:
     vector<StudentRecClass> StudentData;		//vector,store st record
     int index;
     void add(StudentRecClass newRec);           //add new element to StudentData and also update the Index to newest element
-    bool searchID(string ID);
-    bool searchName(string Name);
+    int searchID(string ID);
+    int searchName(string Name);
     void search();
     void select();                          // call Student Action Menu on the indexed studentrec
     void sortAZ();
@@ -226,7 +227,6 @@ private:
 
 bool sortName(const StudentRecClass & s1, const StudentRecClass & s2)
 {
-    s1.Name;
     if (s1.Name != s2.Name) return s1.Name < s2.Name;
     return s1.ID < s2.ID;
 }
@@ -244,6 +244,9 @@ void AMS_System_Menu();         //R3
 void Show_Information_Menu();   //R4
 
 void Search_student();          //R5
+void Student_Action_Menu();     //R5
+
+void Articulation_Management_Menu();    //R6
 
 
 // declearing variable
@@ -309,10 +312,6 @@ void gotoxy(int x, int y)
 {
     cout << "\x1b["+to_string(y)+';'+to_string(x)+"H";
 }
-void cls()
-{
-    for (int i=0; i<25; i++) cout<<endl;
-}
 #elif _WIN32
 #include <windows.h>
 void gotoxy(int xpos, int ypos)
@@ -324,6 +323,11 @@ void gotoxy(int xpos, int ypos)
     SetConsoleCursorPosition(hOuput,scrn);
 }
 #endif
+
+void cls()
+{
+    for (int i=0; i<25; i++) cout<<endl;
+}
 
 bool getint(int &a, string msg1, string msg2)
 {
@@ -517,13 +521,16 @@ bool isID(string input)
 // defining menu functions
 void showmenu(vector<string> msg_list)
 {
+    cin.clear();
+    cin.sync();
     cout<<endl<<center(" "+msg_list[0]+" ",40,'*');
     for (int i=1; (unsigned)i<msg_list.size(); i++)
     {
         cout<<endl<<"("<<i<<") "<<msg_list[i];
     }
     cout<<endl<<center("",40,'*');
-    line(25-msg_list.size()-3);
+    //line(25-msg_list.size()-3);
+    line(25-msg_list.size()-10);
 }
 
 void loadfileErrMenu(string filename)
@@ -688,13 +695,20 @@ void StudentRecClass::showtable()
     cout<<endl<<"No. of subj. taken: "<<this->Num;
     cout<<endl<<"No. of offers: "<<this->Offer.size();
     cout<<endl<<"Offers: ";
-    for (int i=0; (unsigned)i<Offer.size(); i++)
+    if (Offer.size()==0)
     {
-        if (i!=0)
+        cout<<"Nil";
+    }
+    else
+    {
+        for (int i=0; (unsigned)i<Offer.size(); i++)
         {
-            cout<<", ";
+            if (i!=0)
+            {
+                cout<<", ";
+            }
+            cout<<Offer[i];
         }
-        cout<<Offer[i];
     }
 }
 void StudentRecClass::showline()
@@ -734,7 +748,7 @@ void StudentClass::add(StudentRecClass newRec)
         this->index=this->StudentData.size()-1;
     }
 }
-bool StudentClass::searchID(string ID)
+int StudentClass::searchID(string ID)
 {
     int found=0;
     for (int i=0; (unsigned)i<this->StudentData.size(); i++)
@@ -747,9 +761,9 @@ bool StudentClass::searchID(string ID)
             this->index=i;
         }
     }
-    return (found>0);
+    return found;
 }
-bool StudentClass::searchName(string Name)
+int StudentClass::searchName(string Name)
 {
     int found=0;
     for (int i=0; (unsigned)i<this->StudentData.size(); i++)
@@ -767,14 +781,14 @@ bool StudentClass::searchName(string Name)
         cout<<endl<<center(center("Expected issue",20,'!'),40);
         cout<<endl<<"More than one student has this name. Please search by ID for this student...";
     }
-    return (found==1);
+    return found;
 }
 void StudentClass::search()
 {
     cout<<endl<<endl<<"Please input student Name or ID: ";
     string input;
     getline(cin,input);
-    bool found;
+    int found;
     if (isID(input))
     {
         found=this->searchID(input);
@@ -783,18 +797,26 @@ void StudentClass::search()
     {
         found=this->searchName(input);
     }
-    if (found)
+    if (found==1)
     {
         this->select();
     }
     else
     {
-        cout<<endl<<"student *"<<input<<"* is not found..";
+        if (found>1)
+        {
+            this->search();
+        }
+        else{
+        cout<<endl<<"student *"<<input<<"* is not found..";}
     }
 }
 void StudentClass::select()
 {
-    /// call menu searched
+    //show student detail
+    this->StudentData[this->index].showtable();
+    //Student Action Menu R5
+    Student_Action_Menu();
 }
 void StudentClass::sortAZ()
 {
@@ -827,7 +849,7 @@ void StudentClass::showDGPA()
     //show all
     cout<<endl<<"Student ID\tStudent Name\t\tCGPA\tOffered Prog.";
     cout<<endl<<center("",'-');
-    for (int i=0; i<this->StudentData.size(); i++)
+    for (int i=0; (unsigned)i<this->StudentData.size(); i++)
     {
         StudentRecClass dRec=this->StudentData[i];
         dRec.showline();
@@ -980,6 +1002,7 @@ void loadrecfile()
 void AMS_System_Menu()
 {
     int op;
+    bool bye=false;
     do
     {
         vector<string> msg_list;
@@ -1003,13 +1026,24 @@ void AMS_System_Menu()
         case 2:
             Search_student();
             break;
-        case 5:
+        case 3:
+            Articulation_Management_Menu();
             break;
+        case 5:
+        {
+            cout<<"\n  Are you sure to quit? [Y/N]:";
+            string str;
+            cin>>str;
+            bye=((str[0]=='Y')||(str[0]=='y'));
+            cin.clear();
+            cin.sync();
+            break;
+        }
         default:
             warning("1 to 5 only!");
         }
     }
-    while(op!=5);
+    while(!bye);
 }
 
 void Show_Information_Menu()
@@ -1046,9 +1080,65 @@ void Show_Information_Menu()
 void Search_student()
 {
     Student.search();
-    cout<<"\n Index is *"<<Student.index<<"*";
-    cout<<"pppressss [[enter]]";
-    cin.get();
+}
+void Student_Action_Menu()
+{
+ int op;
+    do
+    {
+        vector<string> msg_list;
+        msg_list.push_back("Student Action Menu");
+        msg_list.push_back("Update GPA and No. of subjects");
+        msg_list.push_back("Enter grade point of each extra subject and recalculate GPA");
+        msg_list.push_back("Show student's details");
+        msg_list.push_back("Show possible programmes");
+        msg_list.push_back("Back to system menu");
+        showmenu(msg_list);
+
+        while (!getint(op,"Enter Your Option (1 - 5): ",""))
+        {
+            warning("integer only!");
+        }
+        switch(op)
+        {
+        case 1:break;
+        case 5:
+            break;
+
+        default:
+            warning("1 to 5 only!");
+        }
+    }
+    while(op!=5);
+}
+
+void Articulation_Management_Menu()
+{
+    int op;
+       do
+       {
+           vector<string> msg_list;
+           msg_list.push_back("Articulation Management Menu");
+           msg_list.push_back("Assign offers to students");
+           msg_list.push_back("Reset offers");
+           showmenu(msg_list);
+
+           while (!getint(op,"Enter Your Option (1 - 2): ",""))
+           {
+               warning("integer only!");
+           }
+           switch(op)
+           {
+           case 1:
+               break;
+           case 2:
+               break;
+
+           default:
+               warning("1 to 5 only!");
+           }
+       }
+       while(op!=5);
 }
 
 //================================================================//
