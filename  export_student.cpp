@@ -5,7 +5,6 @@ using namespace std;
 void export_student() {
 char filemem[50];
 char filename[50];
-system("cls");
 cout<<"\n\n\n\t****** Export Student List ******";
 cout<<"\n\n\tEnter Programme Code:";
 cin.getline(filemem,50);
